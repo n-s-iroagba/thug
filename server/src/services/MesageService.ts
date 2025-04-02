@@ -6,14 +6,14 @@ import { CreateMessage } from "../types/CreateMessage";
 export class MessageService {
 
   static async postMessage(createMessageData:CreateMessage): Promise<Message> {
-    const {senderId, content, isSeen, chatId, mediaType} = {...createMessageData}
+    const {senderId, content, isSeen, chatId, contactType} = {...createMessageData}
     try {
       const shoutout = await Message.create({
         senderId,
         content,
         isSeen,
         chatId,
-        mediaType,
+        contactType,
       });
       return shoutout;
     } catch (error:any) {
@@ -53,7 +53,7 @@ export class MessageService {
     return Message.findOne({
       where: { chatId },
       order: [['createdAt', 'DESC']],
-      attributes: ['id', 'message', 'mediaType', 'mediaUrl', 'createdAt', 'isSeen', 'senderId']
+      attributes: ['id', 'message', 'contactType', 'mediaUrl', 'createdAt', 'isSeen', 'senderId']
     });
   }
 

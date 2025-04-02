@@ -11,7 +11,6 @@ import CubeCarousel from "../../components/CubeCarousel";
 
 import TestimonialList from "../../components/TestimonialList";
 import SubscriptionForm from "../../components/Subscription";
-import CelebrityRequestForm from "../../components/CelebrityRequestForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { COMPANY_NAME } from "../../data/data";
@@ -22,7 +21,7 @@ const Home = () => {
   const navigate = useNavigate()
 
   const handleNavigateToLogin = ()=>{
-    navigate('/login')
+    navigate('/book')
   }
 
   return (
@@ -187,7 +186,7 @@ const Home = () => {
 
         </section> */}
         <TestimonialList/>
-        <CelebrityRequestForm/>
+     
         <SubscriptionForm/>
     
       </div>

@@ -13,7 +13,7 @@ interface MessageAttributes {
   senderId: number;
   chatId: ForeignKey<Chat["id"]>;
   content: string;
-  mediaType: "text" | "video" | "voice" | "image";
+  contactType: "text" | "video" | "voice" | "image";
   mediaUrl: string | null;
   isSeen: boolean;
   createdAt?: Date;
@@ -36,7 +36,7 @@ export class Message
   declare senderId: number;
   declare chatId: ForeignKey<Chat["id"]>;
   declare content: string;
-  declare mediaType: "text" | "video" | "voice" | "image";
+  declare contactType: "text" | "video" | "voice" | "image";
   declare mediaUrl: string | null;
   declare isSeen: boolean;
   declare readonly createdAt: Date;
@@ -69,7 +69,7 @@ Message.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    mediaType: {
+    contactType: {
       type: DataTypes.ENUM("text", "video", "voice", "image"),
       allowNull: false,
       defaultValue: "text",

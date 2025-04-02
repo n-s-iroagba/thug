@@ -2,29 +2,19 @@
 import React, { useState } from 'react';
 import TierNumberForm from './TierNumberForm';
 import ReviewForm from './ReviewForm';
+import TierDetailsForm from './TierDetailsForm';
+import { DefaultClubMembership } from '../types/DefaultClubMembership';
 
 const MembershipForm: React.FC = () => {
-  const [step, setStep] = useState<number>(1);
-  const [formData, setFormData] = useState({
-    numberOfTiers: 0,
-    tiers: []
-  });
-
-  const handleTierNumberSubmit = (numberOfTiers: number) => {
-    setFormData({
-      numberOfTiers,
-      tiers: []
-    });
-    setStep(2);
-  };
-
-  // const handleTierDetailsSubmit = (tiers: MembershipTier[]) => {
-  //   setFormData(prev => ({
-  //     ...prev,
-  //     tiers
-  //   }));
-  //   setStep(3);
-  // };
+  const [step, setStep] = useState<number>(0);
+  const [numberOfTiers, setNumberTiers] = useState(0)
+    const [tiers, setTiers] = useState<DefaultClubMembership[]>(
+       Array(numberOfTiers).fill(null).map((_, i) => ({
+         price: 0,
+         tier:'',
+         features: ['']
+       }))
+     );
 
   const handleSubmit = async () => {
     try {
@@ -34,7 +24,7 @@ const MembershipForm: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData.tiers),
+        body: JSON.stringify(tiers),
       });
       
       if (!response.ok) {
@@ -50,18 +40,20 @@ const MembershipForm: React.FC = () => {
 
   return (
     <div className="membership-form-container">
-      {step === 1 && (
-        <TierNumberForm onSubmit={handleTierNumberSubmit} />
+      {step === 0 && (
+        <TierNumberForm setNumberOfTiers={setNumberTiers} setStep={setStep} numberOfTiers={numberOfTiers} />
       )}
-      {/* {step > 1 && step < formData.tiers.length-1 && (
+      {step === 1 &&  (
         <TierDetailsForm 
-          numberOfTiers={formData.numberOfTiers} 
-          onSubmit={handleTierDetailsSubmit}
+          numberOfTiers={numberOfTiers} 
+          setStep={setStep}
+          tiers={tiers}
+          setTiers={setTiers}
         />
-      )} */}
-      {step === formData.tiers.length-1 && (
+      )}
+      {step === 2 && (
         <ReviewForm 
-          tiers={formData.tiers} 
+          tiers={tiers} 
           onSubmit={handleSubmit}
           onBack={() => setStep(2)}
         />

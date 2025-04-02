@@ -22,8 +22,8 @@ export function messageListToDto(
   let lastMessageType: 'text' | 'voice' | 'video'|'image' = 'text';
 
   if (lastMessage) {
-    lastMessageType = lastMessage.mediaType;
-    lastMessageContent = lastMessage.mediaType === 'text' 
+    lastMessageType = lastMessage.contactType;
+    lastMessageContent = lastMessage.contactType === 'text' 
       ? lastMessage.content || ''
       : lastMessage.mediaUrl || '';
   }

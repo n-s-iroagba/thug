@@ -8,7 +8,7 @@ import JobService from "../services/JobService";
 export class FanController {
 
   static async createFan(req: Request, res: Response): Promise<any> {
-    let { fan, mediaType, message, celebrity, user } = req.body;
+    let { fan, contactType, message, celebrity, user } = req.body;
 
     console.log(req.body);
     
@@ -19,13 +19,13 @@ export class FanController {
 
     // Extract media file URL
     let mediaFile = null;
-    if (req.file && mediaType !== "text") {
+    if (req.file && contactType !== "text") {
         mediaFile = `/uploads/${req.file.filename}`; // Adjust this based on your setup
     }
 
  
 
-    if (!mediaFile && mediaType !== "text") {
+    if (!mediaFile && contactType !== "text") {
         throw new Error("No file uploaded");
     }
 
@@ -46,7 +46,7 @@ export class FanController {
 
         // Save Message with mediaFile URL
         await MessageService.postMessage({
-            mediaType,
+            contactType,
             content: message||mediaFile,
             chatId: chat.id,
             isSeen: false,

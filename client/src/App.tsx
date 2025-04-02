@@ -18,6 +18,7 @@ import ForgotPassword from './pages/fan/ForgotPassword';
 import Login from './pages/fan/Login';
 
 import CelebrityDashboard from './pages/fan/CelebrityDashboard';
+import FirstBooking from './pages/fan/FirstBooking';
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
 
   
         <Route path="/login" element={<Login />} />
+        <Route path='/book' element={<FirstBooking/>}/>
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<NewPassword />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />

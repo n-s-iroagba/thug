@@ -1,74 +1,42 @@
-import React, { useState } from 'react';
-import { Container, Form, } from 'react-bootstrap';
+import React, { Dispatch, SetStateAction } from 'react';
+import { Container, Form } from 'react-bootstrap';
+import Celebrity from '../types/Celebrity';
 
-const CelebrityRequestForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    eventType: '',
-    eventDate: '',
-    eventLocation: '',
-    budget: '',
-    specialRequests: ''
-  });
+interface FormData {
+ 
+  eventType: string;
+  eventDate: string;
+  eventLocation: string;
+  budget: string;
+  specialRequests: string;
+}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+interface CelebrityRequestFormProps {
+  formData: FormData;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  isSignedIn:boolean;
+  setComponentView: Dispatch<SetStateAction<any>>
+  selectedCelebrity:Celebrity|null
+  contactType:"event" | "meet" | "club" | "text" | 'signup'|''
+  setFormData:any
+}
+
+const CelebrityRequestForm: React.FC<CelebrityRequestFormProps> = ({ 
+  formData, 
+  setFormData, 
+  isSignedIn,
+  setComponentView,
+  contactType
+}) => {
+
+  const handleSubmit=(e:any)=>{
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add your submission logic here
-  };
-
+  }
   return (
     <Container className="my-5 px-4" style={{ maxWidth: '800px' }}>
       <h2 className="text-center mb-5">Celebrity Appearance Request</h2>
       
       <Form onSubmit={handleSubmit} className="mx-auto" style={{ maxWidth: '600px' }}>
-        {/* Name Field */}
-        <Form.Group className="mb-4 position-relative">
-          <Form.Label className="position-absolute" style={{ left: '0', top: '-20px', fontSize: '0.9rem' }}>
-            Your Full Name
-          </Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            className="border-0 border-bottom rounded-0 px-0"
-            style={{
-              backgroundColor: 'transparent',
-              borderBottom: '2px solid #8a2be2',
-              transition: 'border-color 0.3s ease',
-              boxShadow: 'none'
-            }}
-          />
-        </Form.Group>
-
-        {/* Email Field */}
-        <Form.Group className="mb-4 position-relative">
-          <Form.Label className="position-absolute" style={{ left: '0', top: '-20px', fontSize: '0.9rem' }}>
-            Email Address
-          </Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="border-0 border-bottom rounded-0 px-0"
-            style={{
-              backgroundColor: 'transparent',
-              borderBottom: '2px solid #8a2be2',
-              transition: 'border-color 0.3s ease',
-              boxShadow: 'none'
-            }}
-          />
-        </Form.Group>
 
         {/* Event Type */}
         <Form.Group className="mb-4 position-relative">
@@ -79,7 +47,7 @@ const CelebrityRequestForm = () => {
             as="select"
             name="eventType"
             value={formData.eventType}
-            onChange={handleChange}
+            onChange={setFormData}
             required
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -109,7 +77,7 @@ const CelebrityRequestForm = () => {
             type="date"
             name="eventDate"
             value={formData.eventDate}
-            onChange={handleChange}
+            onChange={setFormData}
             required
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -130,7 +98,7 @@ const CelebrityRequestForm = () => {
             type="text"
             name="eventLocation"
             value={formData.eventLocation}
-            onChange={handleChange}
+            onChange={setFormData}
             required
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -151,7 +119,7 @@ const CelebrityRequestForm = () => {
             type="text"
             name="budget"
             value={formData.budget}
-            onChange={handleChange}
+            onChange={setFormData}
             placeholder="e.g., $5,000 - $10,000"
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -172,7 +140,7 @@ const CelebrityRequestForm = () => {
             as="textarea"
             name="specialRequests"
             value={formData.specialRequests}
-            onChange={handleChange}
+            onChange={setFormData}
             rows={3}
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -185,18 +153,27 @@ const CelebrityRequestForm = () => {
           />
         </Form.Group>
 
-        <button className="p-2" style={{backgroundColor:'indigo', color:'white', border:'none'}}>Submit Request</button>
+        <button 
+          type="submit" 
+          className="p-2 w-100" 
+          style={{
+            backgroundColor: 'indigo', 
+            color: 'white', 
+            border: 'none',
+            borderRadius: '4px'
+          }}
+        >
+          Submit Request
+        </button>
       </Form>
 
-      {/* Add this CSS for the focus effect */}
       <style>
         {`
           .form-control:focus {
             border-color: #9400d3 !important;
             outline: 0;
             box-shadow: none !important;
-          }import { Request } from 'express';
-
+          }
           .form-control::placeholder {
             color: #aaa;
             opacity: 1;

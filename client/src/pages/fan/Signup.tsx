@@ -1,10 +1,5 @@
 import React, { useMemo, useState } from "react";
-import {
-  Button,
-  Form,
-  InputGroup,
-  Spinner,
-} from "react-bootstrap";
+import { Button, Form, InputGroup, Spinner } from "react-bootstrap";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,14 +18,14 @@ interface SignUpProps {
   handleFanChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent) => void;
   setFan: React.Dispatch<React.SetStateAction<Fan>>;
-  setComponentView:React.Dispatch<React.SetStateAction<any>>;
+   setComponentView: React.Dispatch<React.SetStateAction<any>>; 
   fan: Fan;
   user: User;
   submitting: boolean;
   errorMessage: string;
   errors: Record<string, string>;
-  setConfirmPassword:any
-  confirmPassword:string
+  setConfirmPassword: (password: string) => void;
+  confirmPassword: string;
 }
 
 const SignUp: React.FC<SignUpProps> = ({
@@ -43,13 +38,12 @@ const SignUp: React.FC<SignUpProps> = ({
   fan,
   user,
   handleSubmit,
-  setComponentView,
   setConfirmPassword,
   confirmPassword
 }) => {
   const [passwordType, setPasswordType] = useState<"text" | "password">("password");
-
   const [startDate, setStartDate] = useState<Date | null>(fan.dateOfBirth || new Date());
+  const [agreeTerms, setAgreeTerms] = useState(false); // Local state for checkbox only
   const options = useMemo(() => countryList().getData(), []);
 
   const showPassword = () => {
@@ -58,6 +52,19 @@ const SignUp: React.FC<SignUpProps> = ({
 
   const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAgreeTerms(e.target.checked);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!agreeTerms) {
+      alert("You must agree to the terms and conditions");
+      return;
+    }
+    handleSubmit(e);
   };
 
   return (
@@ -70,7 +77,7 @@ const SignUp: React.FC<SignUpProps> = ({
         </small>
       </p>
 
-      <Form className="form-wrapper p-2 pb-5">
+      <Form className="form-wrapper p-2 pb-5" onSubmit={handleFormSubmit}>
         <div className="d-flex justify-content-center my-3">
           <Logo />
         </div>
@@ -85,6 +92,7 @@ const SignUp: React.FC<SignUpProps> = ({
             name="firstName"
             value={fan.firstName}
             onChange={handleFanChange}
+            required
           />
         </Form.Group>
 
@@ -97,6 +105,7 @@ const SignUp: React.FC<SignUpProps> = ({
             name="surname"
             value={fan.surname}
             onChange={handleFanChange}
+            required
           />
         </Form.Group>
 
@@ -109,6 +118,7 @@ const SignUp: React.FC<SignUpProps> = ({
               setStartDate(date);
               setFan({ ...fan, dateOfBirth: date });
             }}
+            required
           />
         </Form.Group>
 
@@ -119,6 +129,7 @@ const SignUp: React.FC<SignUpProps> = ({
             options={options}
             value={options.find((opt) => opt.label === fan.countryOfResidence)}
             onChange={(e) => setFan({ ...fan, countryOfResidence: e?.label || "" })}
+            required
           />
         </Form.Group>
 
@@ -128,6 +139,7 @@ const SignUp: React.FC<SignUpProps> = ({
           <Form.Select
             value={fan.gender}
             onChange={(e) => setFan({ ...fan, gender: e.target.value })}
+            required
           >
             <option value="">Select your gender</option>
             <option value="male">Male</option>
@@ -157,6 +169,7 @@ const SignUp: React.FC<SignUpProps> = ({
             name="email"
             value={user.email}
             onChange={handleUserChange}
+            required
           />
         </Form.Group>
 
@@ -173,6 +186,7 @@ const SignUp: React.FC<SignUpProps> = ({
             pattern="^\+?[1-9]\d{1,14}$"
             maxLength={15}
             onChange={handleUserChange}
+            required
           />
         </Form.Group>
 
@@ -185,8 +199,9 @@ const SignUp: React.FC<SignUpProps> = ({
               name="password"
               value={user.password}
               onChange={handleUserChange}
+              required
             />
-            <InputGroup.Text onClick={showPassword}>
+            <InputGroup.Text onClick={showPassword} style={{ cursor: "pointer" }}>
               <FontAwesomeIcon icon={passwordType === "text" ? faEye : faEyeSlash} />
             </InputGroup.Text>
           </InputGroup>
@@ -200,32 +215,57 @@ const SignUp: React.FC<SignUpProps> = ({
               type={passwordType}
               value={confirmPassword}
               onChange={handleConfirmPasswordChange}
+              required
             />
-            <InputGroup.Text onClick={showPassword}>
+            <InputGroup.Text onClick={showPassword} style={{ cursor: "pointer" }}>
               <FontAwesomeIcon icon={passwordType === "text" ? faEye : faEyeSlash} />
             </InputGroup.Text>
           </InputGroup>
         </Form.Group>
+
+        {/* Terms and Conditions Checkbox */}
+        <Form.Group className="mb-4 mt-4">
+          <Form.Check
+            type="checkbox"
+            id="agreeTerms"
+            checked={agreeTerms}
+            onChange={handleCheckboxChange}
+            label={
+              <>
+                I agree to the <a href="/terms">Terms and Conditions</a> and <a href="/privacy">Privacy Policy</a>
+              </>
+            }
+            required
+          />
+        </Form.Group>
+
+        {/* Error Messages */}
+        {errorMessage && <ErrorMessage message={errorMessage} />}
+        {Object.keys(errors).length > 0 && (
+          <div className="alert alert-danger mt-3">
+            <ul>
+              {Object.values(errors).map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Submit Button */}
+        <Button 
+          type="submit" 
+          className="auth-button mt-3"
+          disabled={submitting || !agreeTerms}
+        >
+          {submitting ? (
+            <>
+              <Spinner as="span" animation="border" size="sm" /> Signing Up...
+            </>
+          ) : (
+            "Sign Up"
+          )}
+        </Button>
       </Form>
-
-      {/* Error Messages */}
-      {errorMessage && <ErrorMessage message={errorMessage} />}
-      {Object.keys(errors).length > 0 && (
-        <div className="alert alert-danger mt-3">
-          <ul>
-            {Object.values(errors).map((error, index) => (
-              <li key={index}>{error}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Submit Button */}
-      <Button className="auth-button mt-3" onClick={handleSubmit}
-      // disabled={submitting}
-      >
-        {submitting ? <Spinner as="span" animation="border" size="sm" /> : "Send SignUp"}
-      </Button>
 
       <MiniFooter />
     </div>

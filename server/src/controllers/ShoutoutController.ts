@@ -4,9 +4,9 @@ import Message from '../models/Message';
 class MessageController {
   // Send a shoutout
   static async sendMessage(req: Request, res: Response) {
-    const { celebrityId, userId, message, mediaType, mediaUrl } = req.body;
+    const { celebrityId, userId, message, contactType, mediaUrl } = req.body;
 
-    if (!celebrityId || !userId || !mediaType) {
+    if (!celebrityId || !userId || !contactType) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
@@ -15,7 +15,7 @@ class MessageController {
         celebrityId,
         userId,
         message,
-        mediaType,
+        contactType,
         mediaUrl,
       });
 

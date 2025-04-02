@@ -1,17 +1,23 @@
 // TierNumberForm.tsx
-import React, { useState } from 'react';
+import React from 'react';
 
 interface TierNumberFormProps {
-  onSubmit: (numberOfTiers: number) => void;
+  setNumberOfTiers:any
+  numberOfTiers:number
+  setStep:any
 }
 
-const TierNumberForm: React.FC<TierNumberFormProps> = ({ onSubmit }) => {
-  const [numberOfTiers, setNumberOfTiers] = useState<number>(1);
+const TierNumberForm: React.FC<TierNumberFormProps> = ({ setNumberOfTiers,numberOfTiers,setStep }) => {
+  const handleSubmit = ()=>{
+    if(numberOfTiers!>0){
+      alert('tier number can not be zeror')
+      return
+    }
+    setStep(1)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(numberOfTiers);
-  };
+  }
+
+
 
   return (
     <form onSubmit={handleSubmit}>

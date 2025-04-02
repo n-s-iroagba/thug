@@ -46,7 +46,7 @@ const NewPassword: React.FC = () => {
     // Simulating password update
     setTimeout(() => {
       alert('Password updated successfully!');
-      navigate('/login');
+      navigate('/book');
       setSubmitting(false);
     }, 1000);
   };

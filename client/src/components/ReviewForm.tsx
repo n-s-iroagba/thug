@@ -1,10 +1,10 @@
 // ReviewForm.tsx
 import React from 'react';
-import { ClubMembership } from '../types/ClubMembership';
+import { DefaultClubMembership } from '../types/DefaultClubMembership';
 
 
 interface ReviewFormProps {
-  tiers: ClubMembership[];
+  tiers: DefaultClubMembership[];
   onSubmit: () => void;
   onBack: () => void;
 }
@@ -15,16 +15,16 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ tiers, onSubmit, onBack }) => {
       <h2>Step 3: Review Your Membership Tiers</h2>
       <div className="tiers-review">
         {tiers.map((tier, index) => (
-          // <div key={tier.id} className="tier-review">
-          //   <h3>Tier {index + 1}: {tier.name}</h3>
-          //   <p>Price: ${tier.price}</p>
-          //   <p>Description: {tier.description}</p>
+          <div key={index} className="tier-review">
+          
+            <p>Price: ${tier.price}</p>
+          
             <ul>
               {tier.features.map((benefit, i) => (
                 <li key={i}>{benefit}</li>
               ))}
             </ul>
-          // </div>
+         </div>
         ))}
       </div>
       <div className="form-actions">
