@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, Button, ProgressBar } from 'react-bootstrap';
-import CampaignCardProps from '../types/CampaignCardProps';
 
-const CampaignCard = ({ celebrity, campaign }: CampaignCardProps) => {
+
+const CampaignCard = ({ celebrity, campaign }: any) => {
   const progress = (campaign.currentAmount / campaign.goalAmount) * 100;
 
   return (

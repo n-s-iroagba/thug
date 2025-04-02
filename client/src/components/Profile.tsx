@@ -4,7 +4,7 @@ import Cropper from 'react-cropper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import 'cropperjs/dist/cropper.css';
-import { IdProps } from '../types/idProps';
+import { IdProps } from '../types/IdProps';
 
 
 

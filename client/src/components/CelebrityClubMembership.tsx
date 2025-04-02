@@ -17,7 +17,7 @@ export const CelebrityClubMembership: React.FC<{packages:ClubMembership[],name:s
                 <Card.Title className="font-title text-primary-950 mb-2">{membership.tier}</Card.Title>
                 <Card.Text className="fw-semibold mb-4">{membership.price}</Card.Text>
                 <ul className="list-disc ps-3 mb-4">
-                  {membership.perks.map((perk, index) => (
+                  {membership.features.map((perk, index) => (
                     <li key={index} className="small">{perk}</li>
                   ))}
                 </ul>

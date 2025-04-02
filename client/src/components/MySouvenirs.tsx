@@ -1,5 +1,5 @@
 import { Card, Row, Col, Accordion } from "react-bootstrap";
-import { IdProps } from "../types/idProps";
+import { IdProps } from "../types/IdProps";
 import { Souvenir } from "../types/Souvenir";
 import { useSouvenirs } from "../hooks/useSouvenirs";
 
@@ -12,10 +12,10 @@ const MySouvenirs:React.FC<IdProps> = ({id}) => {
 const {souvenirs} = useSouvenirs()
   // Group souvenirs by celebrity
   const groupedByCelebrity = souvenirs.reduce((acc, souvenir) => {
-    if (!acc[souvenir.celebrityName]) {
-      acc[souvenir.celebrityName] = [];
+    if (!acc[souvenir.celebrityId]) {
+      acc[souvenir.celebrityId] = [];
     }
-    acc[souvenir.celebrityName].push(souvenir);
+    acc[souvenir.celebrityId].push(souvenir);
     return acc;
   }, {} as Record<string, Souvenir[]>);
 
@@ -39,7 +39,7 @@ const {souvenirs} = useSouvenirs()
                       <Card.Body>
                         <Card.Title>{souvenir.name}</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">
-                          By {souvenir.celebrityName}
+                          By {souvenir.celebrityId}
                         </Card.Subtitle>
                         <Card.Text>{souvenir.description}</Card.Text>
                         <h4 className="text-primary">${souvenir.price.toFixed(2)}</h4>

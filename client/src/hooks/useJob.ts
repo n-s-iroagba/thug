@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Job } from "../types/Job";
-import { BACKEND_SERVER_URL, fetchJobDetailsUrl } from "../data/urls";
+import { BACKEND_SERVER_URL} from "../data/urls";
 
 
 export const useJob = (fanId:string, celebrityId:string) => {

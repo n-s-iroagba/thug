@@ -1,13 +1,11 @@
 // MembershipForm.tsx
 import React, { useState } from 'react';
-import { MembershipFormData, MembershipTier } from './types';
 import TierNumberForm from './TierNumberForm';
-import TierDetailsForm from './TierDetailsForm';
 import ReviewForm from './ReviewForm';
 
 const MembershipForm: React.FC = () => {
   const [step, setStep] = useState<number>(1);
-  const [formData, setFormData] = useState<MembershipFormData>({
+  const [formData, setFormData] = useState({
     numberOfTiers: 0,
     tiers: []
   });
@@ -15,24 +13,18 @@ const MembershipForm: React.FC = () => {
   const handleTierNumberSubmit = (numberOfTiers: number) => {
     setFormData({
       numberOfTiers,
-      tiers: Array(numberOfTiers).fill({
-        id: '',
-        name: '',
-        price: 0,
-        description: '',
-        benefits: []
-      })
+      tiers: []
     });
     setStep(2);
   };
 
-  const handleTierDetailsSubmit = (tiers: MembershipTier[]) => {
-    setFormData(prev => ({
-      ...prev,
-      tiers
-    }));
-    setStep(3);
-  };
+  // const handleTierDetailsSubmit = (tiers: MembershipTier[]) => {
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     tiers
+  //   }));
+  //   setStep(3);
+  // };
 
   const handleSubmit = async () => {
     try {
@@ -61,12 +53,12 @@ const MembershipForm: React.FC = () => {
       {step === 1 && (
         <TierNumberForm onSubmit={handleTierNumberSubmit} />
       )}
-      {step > 1 && step < formData.tiers.length-1 && (
+      {/* {step > 1 && step < formData.tiers.length-1 && (
         <TierDetailsForm 
           numberOfTiers={formData.numberOfTiers} 
           onSubmit={handleTierDetailsSubmit}
         />
-      )}
+      )} */}
       {step === formData.tiers.length-1 && (
         <ReviewForm 
           tiers={formData.tiers} 

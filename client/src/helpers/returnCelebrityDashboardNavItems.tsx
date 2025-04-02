@@ -1,5 +1,4 @@
 import {
-  faUsersRays,
   faUsers,
   faGifts,
   faDollar,

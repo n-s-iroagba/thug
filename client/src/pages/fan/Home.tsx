@@ -8,16 +8,22 @@ import celeb from '../../assets/images/women.jpg'
 import Typewriter from 'typewriter-effect';
 import Steps from "../../components/Steps";
 import CubeCarousel from "../../components/CubeCarousel";
-import SlidingTextCarousel from "../../components/SlidingTextCarousel";
+
 import TestimonialList from "../../components/TestimonialList";
 import SubscriptionForm from "../../components/Subscription";
 import CelebrityRequestForm from "../../components/CelebrityRequestForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { COMPANY_NAME } from "../../data/data";
+import { useNavigate } from "react-router-dom";
 
 
 const Home = () => {
+  const navigate = useNavigate()
+
+  const handleNavigateToLogin = ()=>{
+    navigate('/login')
+  }
 
   return (
     <div style={{
@@ -47,7 +53,7 @@ const Home = () => {
             <Nav className="ms-auto">
               <Nav.Link href="/" className="fw-bold text-orange">Home</Nav.Link>
               <Nav.Link href="#about" className="fw-bold text-dark">About Us</Nav.Link>
-              <Nav.Link href="#contact" className="fw-bold text-dark">Contact</Nav.Link>
+              <Nav.Link href="/login" className="fw-bold text-dark">Login</Nav.Link>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
@@ -56,7 +62,7 @@ const Home = () => {
 
       <div className="py-1">
         <header className="">
-          <h4 className="display-inline mb-4" style={{paddingLeft:'2rem'}}>
+          <h2 className="display-inline mb-4" style={{paddingLeft:'2rem'}}>
             <Typewriter
             options={{
               loop:true
@@ -83,7 +89,7 @@ const Home = () => {
       
   }}
 />
-            </h4>
+            </h2>
          
          
           
@@ -125,7 +131,7 @@ const Home = () => {
           <p>You can also claim souvenirs,</p>
           <p>Book tours,</p>
           <p>And support charity.</p>
-          <button className="p-2" style={{backgroundColor:'indigo', color:'white', border:'none'}}>Connect With A Celebrity</button>
+          <button className="p-2" style={{backgroundColor:'indigo', color:'white', border:'none'}} onClick={handleNavigateToLogin}>Connect With A Celebrity</button>
        
 </Col>
 <Col lg={4} >
@@ -141,10 +147,15 @@ const Home = () => {
       
 
 
-       <Row style={{paddingLeft:'3rem'}}>
+       <Row style={{paddingLeft:'3rem', paddingTop:'3rem'}}>
         <Col >
-        <h2 className="my-3 fw-bold"> SomeOur Featured Celebrities for the Month</h2>
+        <h2 className="my-3 fw-bold"> Some of our featured celebrities for the Month</h2>
         <p>Premium service standards and timely delivery are our commitments at CelebLinks.</p>
+        <p>You can book a MEET AND GREET with just any celebrity.</p>
+        <p>You can book  a celebrity for any of your events or club appearances.</p>
+        <p>You can join celebrity fan clubs.</p>
+        <p className="mb-4">You can claim and receive exclusive souvenirs from your favorite celebrities.</p>
+        <button className="p-2" style={{backgroundColor:'indigo', color:'white', border:'none'}} onClick={handleNavigateToLogin}>Connect With A Celebrity</button>
         </Col>
         
         
@@ -156,28 +167,29 @@ const Home = () => {
                 </Col>
 
         </Row>
-        <section>
-        <Row>
-       <Col>
-        <h3>Meet & Greet With Your Favorite Celebrities in Just A Few Steps</h3>
+
+        {/* <section>
+        <Row  className="px-3">
+       <Col xs={12} lg={6}>
+        <h3 style={{color:'indigo'}}>Meet & Greet With Your Favorite Celebrities in Just A Few Steps</h3>
         <p>
-        At EliteTalentz, we understand the power of a personal connection. We believe that every fan deserves a
+        At {COMPANY_NAME}, we understand the power of a personal connection. We believe that every fan deserves a
          chance to meet the celebrities who have touched their lives in profound ways.
          That’s
          why we have curated a diverse roster of the hottest celebrities from the world of entertainment, sports, music, and more, 
          offering you the opportunity to make your dreams a reality.</p>
-         <button>Book now</button>
+         <button className="p-2" style={{backgroundColor:'indigo', color:'white', border:'none'}} onClick={handleNavigateToLogin}>Connect With A Celebrity</button>
        </Col>
        <Col>
        <SlidingTextCarousel/>
        </Col>
        </Row>
 
-        </section>
+        </section> */}
         <TestimonialList/>
         <CelebrityRequestForm/>
         <SubscriptionForm/>
-        <Footer/>
+    
       </div>
 
       <Footer />

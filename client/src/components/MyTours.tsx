@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Spinner, Alert, ListGroup } from "react-bootstrap";
 import { useBookedTours } from "../hooks/useBookedTours";
-import { IdProps } from "../types/idProps";
+import { IdProps } from "../types/IdProps";
 
 
 

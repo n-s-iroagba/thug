@@ -31,7 +31,7 @@ const CelebritySouvenirs:React.FC<{souvenirs:Souvenir[],name:string}> = ({souven
               <Card.Body>
                 <Card.Title>{souvenir.name}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
-                  By {souvenir.celebrityName}
+                  By {souvenir.celebrityId}
                 </Card.Subtitle>
                 <Card.Text>{souvenir.description}</Card.Text>
                 <h4 className="text-primary">${souvenir.price.toFixed(2)}</h4>

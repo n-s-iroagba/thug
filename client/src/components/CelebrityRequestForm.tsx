@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, } from 'react-bootstrap';
 
 const CelebrityRequestForm = () => {
   const [formData, setFormData] = useState({
@@ -185,20 +185,7 @@ const CelebrityRequestForm = () => {
           />
         </Form.Group>
 
-        <Button 
-          variant="primary" 
-          type="submit" 
-          className="w-100 py-3 mt-3"
-          style={{
-            background: 'linear-gradient(45deg, #8a2be2, #9400d3)',
-            border: 'none',
-            borderRadius: '30px',
-            fontSize: '1.1rem',
-            fontWeight: '600'
-          }}
-        >
-          Submit Request
-        </Button>
+        <button className="p-2" style={{backgroundColor:'indigo', color:'white', border:'none'}}>Submit Request</button>
       </Form>
 
       {/* Add this CSS for the focus effect */}
@@ -208,7 +195,8 @@ const CelebrityRequestForm = () => {
             border-color: #9400d3 !important;
             outline: 0;
             box-shadow: none !important;
-          }
+          }import { Request } from 'express';
+
           .form-control::placeholder {
             color: #aaa;
             opacity: 1;

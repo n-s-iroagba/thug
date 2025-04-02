@@ -8,6 +8,6 @@ export type Tour = {
   duration:string
   features: string[];
   location:string;
-  jobId:string
-  job:Job
+  jobId?:string
+  job?:Job
 };

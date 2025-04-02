@@ -3,8 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Card, Table } from "react-bootstrap";
 import { useBookedEvents } from "../hooks/useBookedEvents";
-import { BookedEvent } from "../types/BookEvent";
-import { IdProps } from "../types/idProps";
+import { IdProps } from "../types/IdProps";
 
 
 const MyBookedEvents: React.FC<IdProps> = ({ id }) => {
@@ -19,7 +18,7 @@ const MyBookedEvents: React.FC<IdProps> = ({ id }) => {
       {events.length === 0 ? (
         <p className="text-center text-muted">No tickets purchased yet.</p>
       ) : (
-        events.map((event: BookedEvent) => (
+        events.map((event: any) => (
           <Card key={event.id} className="mb-4 shadow-sm">
             <Card.Header className="d-flex align-items-center gap-3">
               <img src={event.image} alt={event.title} className="rounded" width={80} height={50} />

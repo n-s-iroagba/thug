@@ -1,15 +1,8 @@
 import { useState, useEffect } from "react";
-import { CampaignWithCelebrity } from "../types/CampaignWithCelebrity";
 
-// Define the return type explicitly
-type UseCampaignsResult = {
-  campaigns: CampaignWithCelebrity[];
-  loading: boolean;
-  error: string | null;
-};
 
-export function useCampaigns(id:number): UseCampaignsResult {
-  const [campaigns, setCampaigns] = useState<CampaignWithCelebrity[]>([]);
+export function useCampaigns(id:number) {
+  const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +14,7 @@ export function useCampaigns(id:number): UseCampaignsResult {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        const data: CampaignWithCelebrity[] = await response.json();
+        const data= await response.json();
         setCampaigns(data);
       } catch (err) {
         setError((err as Error).message);

@@ -1,10 +1,10 @@
 import React from 'react';
-import { ListGroup, Image, Badge } from 'react-bootstrap';
+import { ListGroup, Image, } from 'react-bootstrap';
 
 import '../assets/styles/Interactions.css'; 
 
 import { IdProps } from '../types/IdProps';
-import { truncateString } from '../utils/truncateString';
+
 import useFanJobs from '../hooks/useFanJobs';
 import { Job } from '../types/Job';
 import { useNavigate } from 'react-router-dom';

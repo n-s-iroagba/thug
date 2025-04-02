@@ -1,12 +1,12 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import { useCampaigns } from '../hooks/useCampaign';
-import { IdProps } from '../types/idProps';
-import CampaignCard from './CampaignCard';
+import { Container, Row } from 'react-bootstrap';
+
+import { IdProps } from '../types/IdProps';
+
 
 
 const MyDonationCampaigns:React.FC<IdProps> = ({id}) => {
-  const {campaigns} = useCampaigns(id)
+  // const {campaigns} = useCampaigns(id)
   return (
     <div className="min-vh-100 bg-light">
       
@@ -15,11 +15,11 @@ const MyDonationCampaigns:React.FC<IdProps> = ({id}) => {
           Featured Campaigns
         </h3>
         <Row xs={1} md={2} lg={3} className="g-4">
-          {campaigns.map((campaign, index) => (
+          {/* {campaigns.map((campaign, index) => (
             <Col key={index}>
               <CampaignCard {...campaign} />
             </Col>
-          ))}
+          ))} */}
         </Row>
       </Container>
     </div>

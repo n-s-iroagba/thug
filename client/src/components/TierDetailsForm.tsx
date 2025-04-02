@@ -1,24 +1,26 @@
 // TierDetailsForm.tsx
 import React, { useState } from 'react';
-import { MembershipTier } from './types';
+import { ClubMembership } from '../types/ClubMembership';
+
 
 interface TierDetailsFormProps {
   numberOfTiers: number;
-  onSubmit: (tiers: MembershipTier[]) => void;
+  onSubmit: (tiers: ClubMembership[]) => void;
 }
 
 const TierDetailsForm: React.FC<TierDetailsFormProps> = ({ numberOfTiers, onSubmit }) => {
-  const [tiers, setTiers] = useState<MembershipTier[]>(
+  const [tiers, setTiers] = useState<ClubMembership[]>(
     Array(numberOfTiers).fill(null).map((_, i) => ({
       id: `tier-${i + 1}`,
       name: '',
       price: 0,
       description: '',
-      benefits: ['']
+      tier:'',
+      features: ['']
     }))
   );
 
-  const handleTierChange = (index: number, field: keyof MembershipTier, value: string | number) => {
+  const handleTierChange = (index: number, field: keyof ClubMembership, value: string | number) => {
     const newTiers = [...tiers];
     newTiers[index] = {
       ...newTiers[index],
@@ -29,21 +31,21 @@ const TierDetailsForm: React.FC<TierDetailsFormProps> = ({ numberOfTiers, onSubm
 
   const handleBenefitChange = (tierIndex: number, benefitIndex: number, value: string) => {
     const newTiers = [...tiers];
-    const newBenefits = [...newTiers[tierIndex].benefits];
-    newBenefits[benefitIndex] = value;
-    newTiers[tierIndex].benefits = newBenefits;
+    const newfeatures = [...newTiers[tierIndex].features];
+    newfeatures[benefitIndex] = value;
+    newTiers[tierIndex].features = newfeatures;
     setTiers(newTiers);
   };
 
   const addBenefit = (tierIndex: number) => {
     const newTiers = [...tiers];
-    newTiers[tierIndex].benefits.push('');
+    newTiers[tierIndex].features.push('');
     setTiers(newTiers);
   };
 
   const removeBenefit = (tierIndex: number, benefitIndex: number) => {
     const newTiers = [...tiers];
-    newTiers[tierIndex].benefits.splice(benefitIndex, 1);
+    newTiers[tierIndex].features.splice(benefitIndex, 1);
     setTiers(newTiers);
   };
 
@@ -60,12 +62,12 @@ const TierDetailsForm: React.FC<TierDetailsFormProps> = ({ numberOfTiers, onSubm
           <h3>Tier {tierIndex + 1}</h3>
           <div>
             <label>Name:</label>
-            <input
+            {/* <input
               type="text"
               value={tier.name}
               onChange={(e) => handleTierChange(tierIndex, 'name', e.target.value)}
               required
-            />
+            /> */}
           </div>
           <div>
             <label>Price:</label>
@@ -78,15 +80,15 @@ const TierDetailsForm: React.FC<TierDetailsFormProps> = ({ numberOfTiers, onSubm
           </div>
           <div>
             <label>Description:</label>
-            <textarea
+            {/* <textarea
               value={tier.description}
               onChange={(e) => handleTierChange(tierIndex, 'description', e.target.value)}
               required
-            />
+            /> */}
           </div>
           <div>
-            <label>Benefits:</label>
-            {tier.benefits.map((benefit:string, benefitIndex:number) => (
+            <label>features:</label>
+            {tier.features.map((benefit:string, benefitIndex:number) => (
               <div key={benefitIndex}>
                 <input
                   type="text"

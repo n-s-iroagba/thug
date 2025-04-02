@@ -1,22 +1,25 @@
 import React from 'react';
 import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTicketAlt, faStar, } from '@fortawesome/free-solid-svg-icons';
+import {  faStar, } from '@fortawesome/free-solid-svg-icons';
 import { Tour } from '../../types/Tour';
 
 const tourTiers:Tour[] = [
   {
-    id:1,
-    name: "Backstage Experience",
+    id: 1,
+
     price: 299.99,
     description: "Get an exclusive backstage tour and meet-and-greet",
-    icon: faTicketAlt,
+
     features: [
       "30-minute backstage tour",
       "Professional photo opportunity",
       "Autographed merchandise",
       "Priority venue entry",
     ],
+    duration: '',
+    location: '',
+  
   },
 ];
 
@@ -36,12 +39,8 @@ const Tours = () => {
               <Card className="h-100 shadow-sm">
                 <Card.Body>
                   <div className="d-flex align-items-center mb-3">
-                    <FontAwesomeIcon
-                      icon={tier.icon}
-                      className="text-primary me-2"
-                      size="2x"
-                    />
-                    <Card.Title as="h5" className="mb-0">{tier.name}</Card.Title>
+                    
+                   
                   </div>
                   <Card.Text>{tier.description}</Card.Text>
                   <h3 className="text-primary mb-4">
@@ -63,7 +62,7 @@ const Tours = () => {
                     size="lg"
                     className="w-100"
                   >
-                    Book {tier.name}
+                    Book 
                   </Button>
                 </Card.Footer>
               </Card>

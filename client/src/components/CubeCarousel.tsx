@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Carousel } from "react-bootstrap";
 import "../assets/styles/CubeCarousel.css";
-
+import image1 from '../assets/images/adele.jpg'
+import image2 from '../assets/images/drake.jpeg'
+import image3 from '../assets/images/rihanna.jpg'
+import image4 from '../assets/images/reality.webp'
 const imageArray = [
-  "/assets/image1.jpg",
-  "/assets/image2.jpg",
-  "/assets/image3.jpg",
-  "/assets/image4.jpg",
+ image1,
+ image2, image3, image4,
 ];
 
 const CubeCarousel: React.FC = () => {
@@ -27,12 +28,6 @@ const CubeCarousel: React.FC = () => {
           </Carousel.Item>
         ))}
       </Carousel>
-      <button onClick={() => setIndex((index - 1 + imageArray.length) % imageArray.length)} className="cube-nav-btn left">
-        ◀
-      </button>
-      <button onClick={() => setIndex((index + 1) % imageArray.length)} className="cube-nav-btn right">
-        ▶
-      </button>
     </div>
   );
 };

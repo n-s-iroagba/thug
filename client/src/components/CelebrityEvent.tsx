@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { Card, Button, Container, Row, Col } from 'react-bootstrap';
+import { Card,Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt,  faStar, } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt,  } from '@fortawesome/free-solid-svg-icons';
 import { Event } from '../types/Event';
 
 
@@ -26,10 +26,10 @@ const CelebrityEvent:React.FC<{events:Event[]}> = ({events}) => {
                 <Card.Title className="mb-2">{event.title}</Card.Title>
                 <Card.Subtitle className="mb-3 text-muted">
                   <FontAwesomeIcon icon={faCalendarAlt} className="me-2" />
-                  {new Date(event.date).toLocaleDateString()} - {event.location}
+                  {/* {new Date(event.date).toLocaleDateString()} - {event.location} */}
                 </Card.Subtitle>
                 <Card.Text>{event.description}</Card.Text>
-                <Row className="g-4">
+                {/* <Row className="g-4">
                   {event.ticketTiers.map((tier:any, index:any) => (
                     <Col md={4} key={index}>
                       <Card className="h-100 border-light shadow-sm">
@@ -56,8 +56,8 @@ const CelebrityEvent:React.FC<{events:Event[]}> = ({events}) => {
                                 {perk}
                               </li>
                             ))}
-                          </ul>
-                        </Card.Body>
+                          </ul> */}
+                        {/* </Card.Body>
                         <Card.Footer>
                           <Button variant={index === 2 ? "primary" : "outline-primary"} className="w-100">
                             Purchase Ticket
@@ -66,7 +66,7 @@ const CelebrityEvent:React.FC<{events:Event[]}> = ({events}) => {
                       </Card>
                     </Col>
                   ))}
-                </Row>
+                </Row> */}
               </Card.Body>
             </Col>
           </Row>

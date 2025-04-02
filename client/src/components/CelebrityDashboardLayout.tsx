@@ -1,7 +1,7 @@
 // components/Celebrity.tsx
 import React, { useState } from 'react';
 import { Offcanvas, Button, Container, Row, Col, Nav } from 'react-bootstrap';
-import { AdminDashboardCelebrity } from '../types/AdminDashboardCelebrity';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBoxOpen, faBriefcase, faHeart, faImage, faNewspaper, faShoppingBag, faTicketAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation } from 'react-router-dom';
@@ -15,7 +15,6 @@ function CelebrityDashboardLayout ({  children,
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [celebrity, setCelebrity] = useState<AdminDashboardCelebrity | null>(null);
   const location = useLocation();
 
    const navItems = [

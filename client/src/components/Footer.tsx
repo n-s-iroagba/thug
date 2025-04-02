@@ -28,9 +28,9 @@ const Footer = () => {
           <Col md={6} lg={3} className="mb-4 mb-lg-0">
             <h5 className="text-uppercase mb-4">FEATURES</h5>
             <ul className="list-unstyled">
-              <li className="mb-2"><a href="#" className="text-white text-decoration-none">Pricing</a></li>
-              <li className="mb-2"><a href="#" className="text-white text-decoration-none">Meet & Greet</a></li>
-              <li><a href="#" className="text-white text-decoration-none">Exclusive Contents</a></li>
+              <li className="mb-2"><p  className="text-white text-decoration-none">Pricing</p></li>
+              <li className="mb-2"><p  className="text-white text-decoration-none">Meet & Greet</p></li>
+              <li><p  className="text-white text-decoration-none">Exclusive Contents</p></li>
             </ul>
           </Col>
 
@@ -38,10 +38,10 @@ const Footer = () => {
           <Col md={6} lg={3} className="mb-4 mb-lg-0">
             <h5 className="text-uppercase mb-4">COMPANY</h5>
             <ul className="list-unstyled">
-              <li className="mb-2"><a href="#" className="text-white text-decoration-none">Who We Are</a></li>
-              <li className="mb-2"><a href="#" className="text-white text-decoration-none">Our Mission</a></li>
-              <li className="mb-2"><a href="#" className="text-white text-decoration-none">Privacy Policy</a></li>
-              <li><a href="#" className="text-white text-decoration-none">Terms & Conditions</a></li>
+              <li className="mb-2"><p  className="text-white text-decoration-none">Who We Are</p></li>
+              <li className="mb-2"><p  className="text-white text-decoration-none">Our Mission</p></li>
+              <li className="mb-2"><p  className="text-white text-decoration-none">Privacy Policy</p></li>
+              <li><p  className="text-white text-decoration-none">Terms & Conditions</p></li>
             </ul>
           </Col>
 
@@ -49,9 +49,9 @@ const Footer = () => {
           <Col md={6} lg={3} className="mb-4 mb-md-0">
             <h5 className="text-uppercase mb-4">GET STARTED</h5>
             <ul className="list-unstyled">
-              <li className="mb-2"><a href="#" className="text-white text-decoration-none">Buy Membership</a></li>
-              <li className="mb-2"><a href="#" className="text-white text-decoration-none">Unlimited Access</a></li>
-              <li><a href="#" className="text-white text-decoration-none">Inquiries</a></li>
+              <li className="mb-2"><p  className="text-white text-decoration-none">Buy Membership</p></li>
+              <li className="mb-2"><p  className="text-white text-decoration-none">Unlimited Access</p></li>
+              <li><p  className="text-white text-decoration-none">Inquiries</p></li>
             </ul>
           </Col>
 

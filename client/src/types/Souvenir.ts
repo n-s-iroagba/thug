@@ -7,4 +7,5 @@ export interface Souvenir {
   description: string;
   price: number;
   images: string[]; 
+  celebrityId:string
 }

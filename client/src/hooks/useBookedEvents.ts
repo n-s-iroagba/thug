@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { BookedEvent } from "../types/BookEvent";
+
 
 export function useBookedEvents(id:number) {
-  const [events, setEvents] = useState<BookedEvent[]>([]);
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,7 +14,7 @@ export function useBookedEvents(id:number) {
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-        const data: BookedEvent[] = await response.json();
+        const data = await response.json();
         setEvents(data);
       } catch (err) {
         setError((err as Error).message);

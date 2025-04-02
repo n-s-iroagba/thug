@@ -1,6 +1,10 @@
 import React from "react";
 import "../assets/styles/Testimonial.css";
 import { Col, Container, Row } from "react-bootstrap";
+import test1 from '../assets/images/test1.jpeg'
+import test2 from '../assets/images/test2.jpeg'
+import test3 from '../assets/images/test3.jpeg'
+import test4 from '../assets/images/test4.jpeg'
 
 interface TestimonialProps {
   imageSrc: string;
@@ -23,22 +27,22 @@ const Testimonial: React.FC<TestimonialProps> = ({ imageSrc, quote, author }) =>
 const TestimonialList = () => {
     const testimonials = [
       {
-        imageSrc: "/path/to/sarah-image.jpg",
+        imageSrc: test1,
         quote: "I had the most amazing experience at the meet and greet organized by EliteTalentz! Meeting my favorite celebrity was a dream come true. The team was incredibly helpful throughout the entire process, making sure every detail was taken care of. I can't recommend them enough!",
         author: "Sarah M."
       },
       {
-        imageSrc: "/path/to/emily-image.jpg",
+        imageSrc:test3,
         quote: "I've attended multiple meet and greets organized by EliteTalentz, and each time has been an incredible experience. The team goes above and beyond to create a comfortable and intimate setting for fans to interact with their favorite celebrities. It's a truly magical experience I'll cherish forever!",
         author: "Emily L."
       },
       {
-        imageSrc: "/path/to/maria-image.jpg",
+        imageSrc: test4,
         quote: "EliteTalentz made celebrity booking for our corporate event a breeze. They listened to our requirements and suggested the perfect celebrity who exceeded our expectations. The event was a huge success, and our guests were thrilled. Thank you, EliteTalentz, for your professionalism and making our event unforgettable!",
         author: "Maria Anna"
       },
       {
-        imageSrc: "/path/to/roberto-image.jpg",
+        imageSrc: test2,
         quote: "Booking a celebrity through EliteTalentz was the best decision I made for my daughter's sweet sixteen party. Seeing her face light up when her favorite artist walked in was priceless. The entire process was smooth, and the team at EliteTalentz made sure everything was perfect. Thank you for making my daughter's special day truly special!",
         author: "Roberto Lopez"
       }
