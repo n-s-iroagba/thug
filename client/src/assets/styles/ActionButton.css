@@ -1,0 +1,43 @@
+.action-button {
+
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media screen and (max-width: 900px) {
+  .action-button {
+    font-size: 0.6rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.purple-button-outline{
+  border: none;
+  border-radius: none;
+  border-top: 5px solid purple;
+  border-bottom: 5px solid purple;
+  color: purple;
+  font-size: medium;
+
+
+}
+.button{
+  color: white;
+  background-color:purple;
+}
+.custom-width {
+  width: 100%;
+}
+
+@media (min-width: 992px) { /* Large screens */
+  .custom-width {
+    max-width: 25%;
+  }
+}
+
+@media (min-width: 1200px) { /* Extra-large screens */
+  .custom-width {
+    max-width: 25%;
+  }
+}

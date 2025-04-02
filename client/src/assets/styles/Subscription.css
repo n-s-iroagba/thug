@@ -1,0 +1,17 @@
+/* Optional: Add hover effects to social icons */
+.social-icon {
+    transition: transform 0.2s ease, color 0.2s ease;
+    color: #212529; /* Bootstrap's 'dark' color */
+  }
+  
+  .social-icon:hover {
+    transform: translateY(-2px);
+    color: #0d6efd; /* Bootstrap's primary color */
+  }
+  
+  /* Responsive adjustments for very small screens */
+  @media (max-width: 400px) {
+    .social-icon .fa-lg {
+      font-size: 1.25em;
+    }
+  }

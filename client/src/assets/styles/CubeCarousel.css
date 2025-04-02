@@ -1,0 +1,51 @@
+.cube-carousel-container {
+    position: relative;
+    width: 300px;
+    height: 350px;
+    margin: auto;
+    perspective: 1000px;
+  }
+  
+  .cube-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease-in-out;
+  }
+  
+  .cube-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .cube-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  .cube-nav-btn.left {
+    left: -40px;
+  }
+  
+  .cube-nav-btn.right {
+    right: -40px;
+  }
+  
+  .cube-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
