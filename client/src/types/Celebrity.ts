@@ -1,7 +1,7 @@
 import { ClubMembership } from "./ClubMembership";
 import { Job } from "./Job";
 export default interface Celebrity {
-    id?:string
+    id:string
     stageName: string;
     firstName: string;
     surname: string;
@@ -11,4 +11,10 @@ export default interface Celebrity {
     image: string;
     jobs?:Job[]
    
+  }
+
+  export type FanCreateCelebrity = {
+    stageName:string
+    firstName:string
+    surname:string;
   }

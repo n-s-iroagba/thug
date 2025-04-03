@@ -1,5 +1,6 @@
-export type Charity = {
-    id?: number;
+
+
+  export type CreateCharity = {
     title: string;
     description: string;
     image: string;
@@ -9,8 +10,7 @@ export type Charity = {
   }
 
   
-  // Props interface
-  export interface CharityProps {
-    campaigns:Charity[];
-    name:string;
+  export type Charity = CreateCharity &{
+    id?: number;
+    celebrirty:number;
   }

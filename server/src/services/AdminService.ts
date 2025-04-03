@@ -9,25 +9,30 @@ import { UserService } from "./UserService";
 
 export class AdminService {
 
-  static async addAdmin(adminData: Partial <Admin>,userData: Partial<User>){
-        const { firstName, surname,  } = adminData;
+  static async addAdmin(adminData:{
+    username: string;
+    email: string;
+    whatsAppNumber: string;
+    password: string;
+} ){
+    
         const {
+          username,
           email,
           password,
           whatsAppNumber
-        }= userData
+        }= adminData
         if (
-          !firstName ||
-          !surname ||
+          !username ||
           !email ||
           !password ||
           !whatsAppNumber
         ) {
           throw new Error("Missing required fields");
         }
-    const user = await UserService.createUser(Role.ADMIN, userData as {email:string,password:string,whatsAppNumber:string})
+    const user = await UserService.createUser(Role.ADMIN,  {email,password,whatsAppNumber})
     const admin = await Admin.create({
-      firstName, surname, userId: user.id,
+     username, userId: user.id,
   
     })
     await MailService.sendVerificationEmail(user);
@@ -35,25 +40,6 @@ export class AdminService {
 
   }
 
-  static async updateAdminName(
-    id: number,
-    updates: { firstName?: string; surname?: string }
-  ): Promise<Admin> {
-    const admin = await Admin.findByPk(id);
-    if (!admin) {
-      throw new Error("Admin not found");
-    }
-
-    if (updates.firstName) {
-      admin.firstName = updates.firstName;
-    }
-
-    if (updates.surname) {
-      admin.surname = updates.surname;
-    }
-
-    return await admin.save();
-  }
 
 
 

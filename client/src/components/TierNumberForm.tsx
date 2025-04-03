@@ -9,13 +9,18 @@ interface TierNumberFormProps {
 
 const TierNumberForm: React.FC<TierNumberFormProps> = ({ setNumberOfTiers,numberOfTiers,setStep }) => {
   const handleSubmit = ()=>{
-    if(numberOfTiers!>0){
-      alert('tier number can not be zeror')
-      return
+    if (numberOfTiers <= 0) {
+      alert(numberOfTiers);
+      return;
     }
-    setStep(1)
+    setStep(1);
+    
 
   }
+
+  const handleNumberChange = (e:any)=>{
+  setNumberOfTiers(e.target.value)
+}
 
 
 
@@ -30,7 +35,7 @@ const TierNumberForm: React.FC<TierNumberFormProps> = ({ setNumberOfTiers,number
           min="1"
           max="5"
           value={numberOfTiers}
-          onChange={(e) => setNumberOfTiers(parseInt(e.target.value))}
+          onChange={(e) => handleNumberChange(e)}
           required
         />
       </div>

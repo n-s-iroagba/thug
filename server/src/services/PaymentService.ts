@@ -1,49 +1,50 @@
-import Charity from '../models/Charity';
-import ClubMembership from '../models/ClubMembership';
-import Item from '../models/Item';
-import { Payment } from '../models/Payment';
-import Souvenir from '../models/Souvenir';
-import Ticket from '../models/Ticket';
-import { Tour } from '../models/Tour';
+import Payment from "../models/Payment";
+import { PaymentCreationAttributes } from "../models/Payment";
 
 class PaymentService {
   // Create a new payment
-  async createPayment(fanId: number, amount: number, items: Item[],date:Date ) {
-    try {
-      const payment = await Payment.create({
-        fanId,
-        amount,
-        items,
-        date
-     
-      });
-      return payment;
-    } catch (error:any) {
-      throw new Error(`Error creating payment: ${error.message}`);
-    }
+  async create(data: PaymentCreationAttributes) {
+    return await Payment.create(data);
   }
 
   // Get all payments
-  async getAllPayments() {
-    try {
-      const payments = await Payment.findAll();
-      return payments;
-    } catch (error:any) {
-      throw new Error(`Error fetching payments: ${error.message}`);
-    }
+  async getAll() {
+    return await Payment.findAll();
   }
 
-  // Get payments by fanId
-  async getPaymentsByFanId(fanId: number) {
-    try {
-      const payments = await Payment.findAll({
-        where: { fanId },
-      });
-      return payments;
-    } catch (error:any) {
-      throw new Error(`Error fetching payments by fanId: ${error.message}`);
-    }
+  // Get a single payment by ID
+  async getById(id: number) {
+    return await Payment.findByPk(id);
+  }
+
+  // Update an existing payment
+  async update(id: number, data: Partial<PaymentCreationAttributes>) {
+    const payment = await Payment.findByPk(id);
+    if (!payment) throw new Error("Payment not found");
+    return await payment.update(data);
+  }
+
+  // Delete a payment
+  async delete(id: number) {
+    const payment = await Payment.findByPk(id);
+    if (!payment) throw new Error("Payment not found");
+    await payment.destroy();
+    return { message: "Payment deleted successfully" };
+  }
+
+  // Get payments by item type (e.g., Charity, Event, etc.)
+  async getByItemType(itemType: "ClubMembership" | "Charity" | "MeetGreet" | "Event") {
+    return await Payment.findAll({
+      where: { itemType },
+    });
+  }
+
+  // Get payments by fan ID
+  async getByFanId(fanId: number) {
+    return await Payment.findAll({
+      where: { fanId },
+    });
   }
 }
 
-export const paymentService = new PaymentService();
+export default new PaymentService();

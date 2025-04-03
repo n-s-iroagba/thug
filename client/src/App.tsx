@@ -19,6 +19,9 @@ import Login from './pages/fan/Login';
 
 import CelebrityDashboard from './pages/fan/CelebrityDashboard';
 import FirstBooking from './pages/fan/FirstBooking';
+import SignUp from './pages/fan/SignUp';
+import AdminSignUp from './pages/admin/AdminSignUp';
+import MembershipForm from './components/MembeshipForm';
 
 const App = () => {
   return (
@@ -34,6 +37,10 @@ const App = () => {
 
   
         <Route path="/login" element={<Login />} />
+        <Route path='/admin/signup' element={<AdminSignUp/>}/>
+        <Route path='/create-default/membership' element={<MembershipForm/>}/>
+        {/* <Route path='/admin/dashboard' element={<AdminDashboard/>}/> */}
+        <Route path='/signup' element={<SignUp/>}/>
         <Route path='/book' element={<FirstBooking/>}/>
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<NewPassword />} />

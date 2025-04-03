@@ -1,4 +1,5 @@
-import { Job } from "./Job";
+import Celebrity from "./Celebrity";
+import { Fan } from "./Fan";
 import { Ticket } from "./Ticket";
 
 export type Event = {
@@ -10,6 +11,17 @@ export type Event = {
     description: string;
     image: string;
     tickets: Ticket[];
-    job:Job
-    jobId:number
+    fanId:number
+    celebrityId:number
+      status:"Active"| "Pending"| "Expired"|"Unpaid";
+      fan:Fan
+      celebrity:Celebrity
+  }
+
+export type BookEvent = {
+    eventType: string;
+    eventDate: string;
+    eventLocation: string;
+    budget: string;
+    specialRequests: string;
   }

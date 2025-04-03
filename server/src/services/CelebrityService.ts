@@ -1,5 +1,5 @@
 import { Celebrity, CelebrityAttributes, CelebrityCreationAttributes } from "../models/Celebrity";
-import { Job } from "../models/Job";
+
 
 export class CelebrityService {
   /**
@@ -21,17 +21,10 @@ export class CelebrityService {
    * @param includeChats Whether to include associated chats
    * @returns Array of all celebrities
    */
-  static async getAllCelebrities(includeChats: boolean = false): Promise<Celebrity[]> {
+  static async getAllCelebrities(): Promise<Celebrity[]> {
     try {
-      const options: any = {};
-      if (includeChats) {
-        options.include = [{
-          model: Job,
-          as: 'jobs'
-        }];
-      }
       
-      const celebrities = await Celebrity.findAll(options);
+      const celebrities = await Celebrity.findAll();
       return celebrities;
     } catch (error) {
       throw new Error(`Error getting all celebrities: ${error instanceof Error ? error.message : String(error)}`);
@@ -44,18 +37,13 @@ export class CelebrityService {
    * @param includeChats Whether to include associated chats
    * @returns Celebrity if found, null otherwise
    */
-  static async getCelebrityById(id: number, includeChats: boolean = false): Promise<Celebrity | null> {
+  static async getCelebrityById(id: number): Promise<Celebrity | null> {
     try {
       const options: any = {
         where: { id }
       };
       
-      if (includeChats) {
-        options.include = [{
-          model: Job,
-          as: 'jobs'
-        }];
-      }
+   
       
       const celebrity = await Celebrity.findOne(options);
       return celebrity;

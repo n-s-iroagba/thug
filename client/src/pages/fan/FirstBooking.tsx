@@ -1,51 +1,61 @@
 import { useState } from "react";
-import SignUp from "./Signup";
-import Celebrity from "../../types/Celebrity";
-import { validateForm } from "../../utils/utils";
-import { User } from "../../types/User";
+import { useNavigate } from "react-router-dom";
+import { Button, Form } from "react-bootstrap";
+import Celebrity, { FanCreateCelebrity } from "../../types/Celebrity";
 import { Fan } from "../../types/Fan";
+import { User } from "../../types/User";
+import { ClubMembership, DefaultClubMembership } from "../../types/ClubMembership";
+import { validateForm } from "../../utils/utils";
 import { fanSignUpUrl } from "../../data/urls";
-import { Form, useNavigate } from "react-router-dom";
-import MembershipApplicationForm from "../../components/MembershipApplication";
 import useFetchAllCelebrities from "../../hooks/useFetchAllCelebrities";
-import { Button } from "react-bootstrap";
-import MeetGreetApplicationForm from "../../components/MeetGreetApplication";
 import SearchBar from "../../components/SearchBar";
 import SearchPic from "../../components/SearchPic";
-import { ClubMembership } from "../../types/ClubMembership";
-import CelebrityRequestForm from "../../components/CelebrityRequestForm";
+import EventBookingForm from "../../components/EventBookingForm";
 import Shoutout from "./Shoutout";
+import SignUpForm from "../../components/SignupForm";
+import MeetGreetApplication from "../../components/MeetGreetApplication";
+import MembershipApplication from "../../components/MembershipApplication";
+import { MeetGreetBooking } from "../../types/MeetGreet";
+import { BookEvent } from "../../types/Event";
+
+export type ContactType = "event" | "meet" | "club" | "text";
+export type ComponentView = ContactType | "signup";
 
 const FirstBooking = () => {
-  const [selectedCelebrity, setSelectedCelebrity] = useState<Celebrity | null>(null);
+  // State management
+  const [selectedCelebrity, setSelectedCelebrity] = useState<Celebrity |FanCreateCelebrity |null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [contactType, setContactType] = useState<"event" | "meet" | "club" | "text" | "">("");
-  const [componentView, setComponentView] = useState<"event" | "meet" | "club" | "text" | 'signup'|''>('');
+  const [contactType, setContactType] = useState<ContactType>("text");
+  const [componentView, setComponentView] = useState<ComponentView>("text");
   const [confirmPassword, setConfirmPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [message, setMessage] = useState('');
-  const [selectedMembership, setSelectedMembership] = useState<ClubMembership | null>(null);
-  const [eventData, setEventData] = useState({
-    name: '',
-    email: '',
+  const [selectedMembership, setSelectedMembership] = useState<ClubMembership |DefaultClubMembership |null>(null);
+  
+  const [eventData, setEventData] = useState<BookEvent>({
+    
+  
     eventType: '',
     eventDate: '',
     eventLocation: '',
     budget: '',
     specialRequests: ''
   });
-  const [meetData, setMeetData] = useState<{ date: Date | null, expectations: string }>({
+  
+  const [meetData, setMeetData] = useState<MeetGreetBooking>({
     date: null,
-    expectations: ''
+    durationInDays:1,
+    expectations: '',
+    price:'',
   });
 
-  const navigate = useNavigate();
   const [user, setUser] = useState<User>({
     email: '',
     password: '',
     whatsAppNumber: '',
   });
+
   const [fan, setFan] = useState<Fan>({
     firstName: '',
     surname: '',
@@ -55,10 +65,13 @@ const FirstBooking = () => {
     occupation: ''
   });
 
+  // Hooks
+  const navigate = useNavigate();
   const { celebrities, loading, error } = useFetchAllCelebrities();
   const [query, setQuery] = useState("");
-  const isSignedIn = false; // Added missing isSignedIn variable
+  const isSignedIn = false;
 
+  // Handlers
   const handleFanChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFan({ ...fan, [e.target.name]: e.target.value });
   };
@@ -67,41 +80,36 @@ const FirstBooking = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSearchChange = (searchQuery: string) => {
-    setQuery(searchQuery);
-  };
+  const handleSearchChange = (searchQuery: string) => setQuery(searchQuery);
 
   const handleSelectCelebrity = (celebrity: Celebrity) => {
     setSelectedCelebrity(celebrity);
     setQuery("");
   };
 
+  const handleContactTypeChange = (type: ContactType) => {
+    setContactType(type);
+    setComponentView(type);
+  };
 
-  const handleSubmitMembership = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedCelebrity) {
-      setErrorMessage("Please select a celebrity");
+    setSubmitting(true);
+    setErrorMessage('');
+
+    if (!validateForm(fan, user, setErrors, confirmPassword)) {
+      setSubmitting(false);
       return;
     }
 
-    if (!selectedMembership) {
-      setErrorMessage("Please select a membership tier");
-      return;
-    }
- 
-      
-      if (!validateForm(fan, user, setErrors, confirmPassword)) {
-        setSubmitting(false);
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('fan', JSON.stringify(fan));
-      formData.append('user', JSON.stringify(user));
+    const formData = new FormData();
+    formData.append('fan', JSON.stringify(fan));
+    formData.append('user', JSON.stringify(user));
+    
+    if (selectedCelebrity) {
       formData.append('celebrity', JSON.stringify(selectedCelebrity));
       formData.append('contactType', contactType);
 
-      // Add view-specific data
       switch(contactType) {
         case 'text':
           formData.append('message', message);
@@ -118,82 +126,74 @@ const FirstBooking = () => {
           }
           break;
       }
-
-      try {
-        const response = await fetch(fanSignUpUrl, {
-          method: 'POST',
-          body: formData
-        });
-        const data = await response.json();
-        navigate(`verify-email/${data}`);
-      } catch (error) {
-        setErrorMessage('Submission failed. Please try again.');
-        setSubmitting(false);
-      }
     }
-  
+
+    try {
+      const response = await fetch(fanSignUpUrl, {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      navigate(`/verify-email/${data}`);
+    } catch (error) {
+      setErrorMessage('Submission failed. Please try again.');
+      console.error('Error:', error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const createTempCelebrity = (name: string) => {
-    const newCelebrity: Celebrity = {
-      id: Date.now().toString(), // Added missing id
+    const newCelebrity: FanCreateCelebrity = {
       stageName: name,
       firstName: name.split(" ")[0],
       surname: name.split(" ")[1] || "",
-      image: "",
-      bio: "",
-      isConfirmed: false,
-      memberships: [], // Added missing memberships
     };
     setSelectedCelebrity(newCelebrity);
     setQuery("");
   };
 
-  const handleContactTypeChange = (type: "event" | "meet" | "club" | "text") => {
-    setContactType(type);
-    setComponentView(type);
-  };
-
-  const filteredCelebrities = celebrities.filter(
-    (celebrity) =>
-      celebrity.stageName.toLowerCase().includes(query.toLowerCase()) ||
-      celebrity.firstName.toLowerCase().includes(query.toLowerCase()) ||
-      celebrity.surname.toLowerCase().includes(query.toLowerCase())
-  );
-
-  if (loading) {
-    return <div>Loading celebrities...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div>Loading celebrities...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    <>
-      <SearchBar
-        query={query}
-        onQueryChange={handleSearchChange}
-        items={filteredCelebrities}
-        onSelectItem={handleSelectCelebrity}
-        renderItem={(celebrity) => (
-          <div className="d-flex align-items-center">
-            <img
-              src={celebrity.image}
-              alt={celebrity.stageName}
-              style={{ width: 40, height: 40, borderRadius: "50%" }}
-              className="me-3"
-            />
-            <div>
-              <strong>
-                {celebrity.firstName} {celebrity.surname}
-              </strong>
-              <br />
-              <small>{celebrity.stageName}</small>
+    <div className="booking-container">
+     { componentView !=='signup'&&<>
+      <div className="search-section">
+        <h6 className="text-center">
+          Connect With Your Favorite Celebrities Worldwide
+        </h6>
+        <SearchPic />
+        
+        <SearchBar
+          query={query}
+          onQueryChange={handleSearchChange}
+          items={celebrities.filter(c => 
+            c.stageName.toLowerCase().includes(query.toLowerCase()) ||
+            c.firstName.toLowerCase().includes(query.toLowerCase()) ||
+            c.surname.toLowerCase().includes(query.toLowerCase())
+          )}
+          onSelectItem={handleSelectCelebrity}
+          renderItem={(celebrity) => (
+            <div className="d-flex align-items-center">
+              <img
+                src={celebrity.image}
+                alt={celebrity.stageName}
+                style={{ width: 40, height: 40, borderRadius: "50%" }}
+                className="me-3"
+              />
+              <div>
+                <strong>{celebrity.firstName} {celebrity.surname}</strong>
+                <br />
+                <small>{celebrity.stageName}</small>
+              </div>
             </div>
-          </div>
-        )}
-        createEntity={createTempCelebrity}
-      />
+          )}
+          createEntity={createTempCelebrity}
+        />
+      </div>
+  
+      
 
       {selectedCelebrity && (
         <>
@@ -235,9 +235,11 @@ const FirstBooking = () => {
             </div>
           </Form>
         </>
-      )}
+        
+      )}</>}
+  
       {selectedCelebrity && componentView === 'event' && (
-        <CelebrityRequestForm
+        <EventBookingForm
           setComponentView={setComponentView}
           selectedCelebrity={selectedCelebrity}
           formData={eventData}
@@ -249,9 +251,8 @@ const FirstBooking = () => {
       )}
 
       {selectedCelebrity && componentView === 'club' && (
-        <MembershipApplicationForm
+        <MembershipApplication
           setComponentView={setComponentView}
-          memberships={selectedCelebrity.memberships}
           selectedCelebrity={selectedCelebrity}
           contactType={contactType}
           selectedMembership={selectedMembership}
@@ -273,7 +274,7 @@ const FirstBooking = () => {
       )}
 
       {componentView === 'meet' && (
-        <MeetGreetApplicationForm
+        <MeetGreetApplication
           selectedCelebrity={selectedCelebrity}
           contactType={contactType}
           bookingData={meetData}
@@ -282,9 +283,9 @@ const FirstBooking = () => {
       )}
 
       {componentView === 'signup' && (
-        <SignUp
+        <SignUpForm
           setComponentView={setComponentView}
-          handleSubmit={handleSubmitMembership}
+          handleSubmit={handleSubmit}
           handleFanChange={handleFanChange}
           handleUserChange={handleUserChange}
           setFan={setFan}
@@ -298,18 +299,8 @@ const FirstBooking = () => {
         />
       )}
 
-      <div className="md-w-50 px-5">
-        <h6 className="mt-3 text-center">
-          Connect With Your Favorite Celebrities All Over The World!
-        </h6>
-        <SearchPic />
-        <div className="d-flex justify-content-center text-center py-3">
-          <small>
-            Kindly search the celebrity you wish to send a shoutout to.
-          </small>
-        </div>
-      </div>
-    </>
+     
+    </div>
   );
 };
 

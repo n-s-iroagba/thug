@@ -1,10 +1,8 @@
 import { Role } from "../enums/Role";
 import { messageListToDto } from "../helper/messageDto";
-import Chat from "../models/Chat";
 import { Fan, FanCreationAttributes } from "../models/Fan";
 import { User } from "../models/User";
 import { MailService } from "./MailService";
-import { MessageService } from "./MesageService";
 import { UserService } from "./UserService";
 
 

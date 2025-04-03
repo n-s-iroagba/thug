@@ -1,9 +1,8 @@
 // models/Event.ts
 import { Optional, Model, NonAttribute, ForeignKey, DataTypes, BelongsToGetAssociationMixin } from "sequelize";
 import sequelize from "../config/orm"; 
-import { Ticket } from "./Ticket";
-import { Job } from "./Job";
 import { Celebrity } from "./Celebrity";
+import { Fan } from "./Fan";
 
 export interface EventAttributes {
   id: number;
@@ -12,12 +11,15 @@ export interface EventAttributes {
   endDate: Date;
   location: string;
   description: string;
-  image: string;
-  tickets?: NonAttribute<Ticket[]>;
+  amount:number|null;
+  amountPaid:number|null
+  status:  "Active"| "Pending"| "Expired"|"Unpaid"
   celebrityId:ForeignKey<Celebrity['id']>
   celebrity?: NonAttribute<Celebrity>;
+  fanId:NonAttribute<Fan['id']>
 }
 
+//PAYMENTS
 export type EventCreationAttributes = Optional<EventAttributes, "id">;
 
 export class Event extends Model<EventAttributes, EventCreationAttributes> implements EventAttributes {
@@ -27,16 +29,13 @@ export class Event extends Model<EventAttributes, EventCreationAttributes> imple
   public endDate!: Date;
   public location!: string;
   public description!: string;
-  public image!: string;
+  public amount:number|null = null;
+  public amountPaid:number|null = null;
   public celebrityId!:ForeignKey<Celebrity['id']>
-  
+  public fanId!:ForeignKey<Fan['id']>
+    status!:  "Active"| "Pending"| "Expired"|"Unpaid"
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-
-  // Association methods
-  public getJob!: BelongsToGetAssociationMixin<Job>;
-  public getTickets!: () => Promise<Ticket[]>;
-  public getCelebrity!: () => Promise<Celebrity>;
 }
 
 Event.init(
@@ -88,13 +87,21 @@ Event.init(
         len: [10, 2000]
       }
     },
-    image: {
+
+    fanId: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isUrl: true
-      }
     },
+    amount: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    amountPaid: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    status: {
+      type: DataTypes.ENUM(  "Active","Pending", "Expired"),
+    }
   },
   {
     sequelize,

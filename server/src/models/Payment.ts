@@ -3,20 +3,22 @@ import {
     Model,
     DataTypes,
     Optional,
-    Sequelize,
-    NonAttribute,
     ForeignKey,
   } from "sequelize";
   import sequelize from "../config/orm";
-import Item from "./Item";
 import { Fan } from "./Fan";
+import Charity from "./Charity";
+import ClubMembership from "./ClubMembership";
+import { Event } from "./Event";
+import AppliedMeetGreet from "./AppliedMeetGreet";
   
   export interface PaymentAttributes {
     id: number;
-    items:NonAttribute<Item[]>;
+    itemType: "ClubMembership" | "Charity" | "MeetGreet" | "Event";
     amount: number;
     date: Date;
-    fanId:ForeignKey<Fan['id']>
+    itemId:ForeignKey<ClubMembership['id']|Charity['id']|AppliedMeetGreet['id']|Event['id']>
+    fanId: ForeignKey<Fan['id']>
   }
   
   export type PaymentCreationAttributes = Optional<PaymentAttributes, "id">;
@@ -24,11 +26,11 @@ import { Fan } from "./Fan";
   export class Payment extends Model<PaymentAttributes, PaymentCreationAttributes>
     implements PaymentAttributes {
     public id!: number;
-    public itemType!: "ClubMembership" | "Charity" | "Ticket" | "Souvenir" | "Tour";
+    public itemType!:  "ClubMembership" | "Charity" | "MeetGreet" | "Event";
     public amount!: number;
     public date!: Date;
-    public items!: Item[];
     public fanId!: ForeignKey<Fan['id']>
+    public itemId!:ForeignKey<ClubMembership['id']|Charity['id']|AppliedMeetGreet['id']|Event['id']>
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
   }
@@ -48,16 +50,19 @@ import { Fan } from "./Fan";
         type: DataTypes.DATE,
         allowNull: false,
       },
-      items: {
-        type: DataTypes.JSONB,
-        allowNull:false
+      itemId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
       },
-      fanId:{
-        type:DataTypes.INTEGER,
+      fanId: {
+        type: DataTypes.INTEGER,
         references: {
           model: Fan,
           key: 'id'
-          },
+        },
+      },
+      itemType: {
+        type: DataTypes.ENUM('ClubMembership', 'Charity', 'MeetGreet', 'Event')
       }
     },
     {

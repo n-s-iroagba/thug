@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-fanRouter.post("/signup",upload.single('mediaFile'), FanController.createFan);
+fanRouter.post("/signup",upload.single('mediaFile'), FanController.createFanAndBooking);
 
 fanRouter.get("/", FanController.getAllFans);
 

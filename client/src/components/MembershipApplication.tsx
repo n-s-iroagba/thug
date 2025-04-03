@@ -1,34 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Container, Row, Col, Card, ListGroup, Spinner } from 'react-bootstrap';
-import { ClubMembership } from '../types/ClubMembership';
-import Celebrity from '../types/Celebrity';
+import { ClubMembership, DefaultClubMembership } from '../types/ClubMembership';
+import Celebrity, { FanCreateCelebrity } from '../types/Celebrity';
 
 interface MembershipSelectionProps {
-  selectedMembership: ClubMembership | null;
-  memberships: ClubMembership[];
-  setSelectedMembership: (membership: ClubMembership) => void;
+  selectedMembership: ClubMembership | DefaultClubMembership|null;
+ 
+  setSelectedMembership: Dispatch<SetStateAction<ClubMembership |DefaultClubMembership| null>>
   isSignedIn:boolean
    setComponentView: React.Dispatch<React.SetStateAction<any>>;
   contactType:"event" | "meet" | "club" | "text" | 'signup'|''
-  selectedCelebrity:Celebrity|null
+  selectedCelebrity:Celebrity|FanCreateCelebrity|null
 }
 
 const MembershipSelection: React.FC<MembershipSelectionProps> = ({ 
   selectedMembership,
-  memberships,
   setSelectedMembership,
   setComponentView,
   selectedCelebrity,
   isSignedIn
 }) => {
+  const [memberships, setMemberships] = useState<DefaultClubMembership[] |ClubMembership[]>([]);
+
   useEffect(() => {
-    if (selectedMembership && memberships) {
-      const membership = memberships.find((m) => m.id === selectedMembership.id);
-      if (membership) {
-        setSelectedMembership(membership);
+    const fetchMeetGreetReference = async () => {
+      try {
+        const response = await fetch(
+         selectedCelebrity && "id" in selectedCelebrity 
+          ? `/api/memberships/${selectedCelebrity.id}`
+          : `/api/memberships/default-reference`
+        );
+        const data:DefaultClubMembership[] |ClubMembership[] = await response.json();
+        setMemberships(data);
+      } catch (error) {
+        console.error("Error fetching Meet & Greet reference:", error);
       }
-    }
-  }, [memberships, selectedMembership, setSelectedMembership]);
+    };
+
+    fetchMeetGreetReference();
+  }, [selectedCelebrity]);
 
   const handleSubmit = ()=>{
     if(isSignedIn){
@@ -68,19 +78,20 @@ const MembershipSelection: React.FC<MembershipSelectionProps> = ({
                     <div>
                       <h4>{membership.tier}</h4>
                       <h3 className="text-primary">${membership.price}</h3>
-                    </div>
-                    {selectedMembership?.id === membership.id && (
-                      <span className="badge bg-success">Selected</span>
-                    )}
-                  </div>
-                  <ListGroup variant="flush" className="mt-3">
-                    {membership.features.map((feature, index) => (
+                      <ListGroup variant="flush" className="mt-3">
+                        {membership.features.map((feature, index) => (
                       <ListGroup.Item key={index} className="py-2 px-0 border-0">
                         <i className="fas fa-check-circle text-success me-2"></i>
                         {feature}
                       </ListGroup.Item>
                     ))}
                   </ListGroup>
+                    </div>
+                    {selectedMembership?.id === membership.id && (
+                      <span className="badge bg-success">Selected</span>
+                    )}
+                  </div>
+                  
                 </Card.Body>
               </Card>
             ))}

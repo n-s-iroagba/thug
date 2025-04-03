@@ -3,15 +3,15 @@ import { Button, Form, InputGroup, Spinner } from "react-bootstrap";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import DatePicker from "react-datepicker";
 import countryList from "react-select-country-list";
 import Select from "react-select";
-import AuthOption from "../../components/AuthOption";
-import ErrorMessage from "../../components/ErrorMessage";
-import Logo from "../../components/Logo";
-import MiniFooter from "../../components/MiniFooter";
-import { Fan } from "../../types/Fan";
-import { User } from "../../types/User";
+import { Fan } from "../types/Fan";
+import { User } from "../types/User";
+import AuthOption from "./AuthOption";
+import ErrorMessage from "./ErrorMessage";
+import Logo from "./Logo";
+import MiniFooter from "./MiniFooter";
+
 
 interface SignUpProps {
   handleUserChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -42,7 +42,6 @@ const SignUp: React.FC<SignUpProps> = ({
   confirmPassword
 }) => {
   const [passwordType, setPasswordType] = useState<"text" | "password">("password");
-  const [startDate, setStartDate] = useState<Date | null>(fan.dateOfBirth || new Date());
   const [agreeTerms, setAgreeTerms] = useState(false); // Local state for checkbox only
   const options = useMemo(() => countryList().getData(), []);
 
@@ -112,12 +111,11 @@ const SignUp: React.FC<SignUpProps> = ({
         {/* Date of Birth */}
         <Form.Group className="mb-3" controlId="dob">
           <Form.Label>Date of Birth</Form.Label>
-          <DatePicker
-            selected={startDate}
-            onChange={(date: Date | null) => {
-              setStartDate(date);
-              setFan({ ...fan, dateOfBirth: date });
-            }}
+          <Form.Control
+            type="date"
+            name="dateOfBirth"
+            value={fan.dateOfBirth?.toString()||new Date ().toString()}
+            onChange={handleFanChange}
             required
           />
         </Form.Group>

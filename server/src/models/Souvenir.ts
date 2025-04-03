@@ -1,7 +1,7 @@
 import { Model, DataTypes, Optional, ForeignKey } from "sequelize";
 import sequelize from "../config/orm";
 import { Celebrity } from "./Celebrity";
-import Item from "./Item";
+
 
 export interface SouvenirAttributes {
   id: number;
@@ -9,10 +9,10 @@ export interface SouvenirAttributes {
   description: string;
   images: string[]; // this will now be a JSON array
   celebrityId?: ForeignKey<Celebrity['id']>;
-  itemId?: ForeignKey<Item['id']>;
+
 }
 
-export type SouvenirCreationAttributes = Optional<SouvenirAttributes, "id" | "celebrityId" | "itemId">;
+export type SouvenirCreationAttributes = Optional<SouvenirAttributes, "id" | "celebrityId" >;
 
 export class Souvenir extends Model<SouvenirAttributes, SouvenirCreationAttributes> implements SouvenirAttributes {
   public id!: number;
@@ -20,7 +20,6 @@ export class Souvenir extends Model<SouvenirAttributes, SouvenirCreationAttribut
   public description!: string;
   public images!: string[];
   public celebrityId?: ForeignKey<Celebrity['id']>;
-  public itemId?: ForeignKey<Item['id']>;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -48,13 +47,6 @@ Souvenir.init(
       type: DataTypes.INTEGER,
       references: {
         model: Celebrity,
-        key: 'id',
-      },
-    },
-    itemId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Item,
         key: 'id',
       },
     },

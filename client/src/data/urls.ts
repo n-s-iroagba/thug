@@ -15,3 +15,6 @@ export const fetchAllCelebritiesUrl = `${BACKEND_SERVER_URL}/celebrities/`
 
 export const fetchFanJobsUrl =`${BACKEND_SERVER_URL}/jobs`
 export const fetchJobDetailsUrl = `${BACKEND_SERVER_URL}/jobs`
+
+
+export  const createAdminUrl =`${BACKEND_SERVER_URL}/admin/`

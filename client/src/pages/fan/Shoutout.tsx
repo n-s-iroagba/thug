@@ -1,12 +1,13 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import Celebrity from "../../types/Celebrity";
+import Celebrity, { FanCreateCelebrity } from "../../types/Celebrity";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Alert, Spinner } from "react-bootstrap";
 import { fanSignUpUrl } from "../../data/urls";
+import { ComponentView } from "./FirstBooking";
 
 interface BookingProps {
-   setComponentView:  Dispatch<SetStateAction<"event" | "meet" | "club" | "text" |''| "signup">>;
-  selectedCelebrity: Celebrity | null;
+   setComponentView:  Dispatch<SetStateAction<ComponentView>>;
+  selectedCelebrity: Celebrity | null | FanCreateCelebrity;
   message: string;
   setMessage: (msg: string) => void;
   contactType:"event" | "meet" | "club" | "text" | 'signup'|'';

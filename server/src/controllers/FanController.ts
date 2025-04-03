@@ -1,33 +1,20 @@
 import { Request, Response } from "express";
 import { FanService } from "../services/FanService";
-import { MessageService } from "../services/MesageService";
+import { MessageService } from "../services/MessageService";
 import { CelebrityService } from "../services/CelebrityService";
-import { ChatService } from "../services/ChatService";
 import JobService from "../services/JobService";
 
 export class FanController {
 
-  static async createFan(req: Request, res: Response): Promise<any> {
+  static async createFanAndBooking(req: Request, res: Response): Promise<any> {
     let { fan, contactType, message, celebrity, user } = req.body;
 
     console.log(req.body);
-    
-    // Parse JSON fields
+  
     fan = JSON.parse(fan);
     user = JSON.parse(user);
     celebrity = JSON.parse(celebrity);
 
-    // Extract media file URL
-    let mediaFile = null;
-    if (req.file && contactType !== "text") {
-        mediaFile = `/uploads/${req.file.filename}`; // Adjust this based on your setup
-    }
-
- 
-
-    if (!mediaFile && contactType !== "text") {
-        throw new Error("No file uploaded");
-    }
 
     try {
         if (!celebrity.id) {
@@ -42,15 +29,14 @@ export class FanController {
         // Create Fan, Job, Chat
         const { token, fanId } = await FanService.createFan(fan, user);
         const job = await JobService.createJob({ fanId, celebrityId: celebrity.id });
-        const chat = await ChatService.createChat({ jobId: job.id });
+    
 
-        // Save Message with mediaFile URL
         await MessageService.postMessage({
-            contactType,
-            content: message||mediaFile,
-            chatId: chat.id,
+    
+            content: message,
+            jobId: job.id,
             isSeen: false,
-            senderId: fanId,
+         
         });
 
         return res.status(201).json(token);

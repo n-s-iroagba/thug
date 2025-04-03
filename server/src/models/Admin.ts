@@ -9,8 +9,7 @@ import sequelize from "../config/orm";
 
 interface AdminAttributes {
   id: number;
-  firstName: string;
-  surname: string;
+  username: string;
 
   userId: number; 
 }
@@ -21,8 +20,7 @@ export class Admin extends Model<AdminAttributes, AdminCreationAttributes>
   implements AdminAttributes {
 
   public id!: number;
-  public firstName!: string;
-  public surname!: string;
+  public username!: string;
   public userId!: ForeignKey<User['id']>; // Correctly typed as ForeignKey<number>
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -45,12 +43,9 @@ export class Admin extends Model<AdminAttributes, AdminCreationAttributes>
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
     
-      surname: {
+    
+      username: {
         type: DataTypes.STRING,
         allowNull: false,
       },

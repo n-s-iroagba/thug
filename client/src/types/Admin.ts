@@ -1,7 +1,18 @@
+import { User } from "./User";
+
 export type Admin ={
     id?: number,
-    firstName:string;
-    phoneNumber:string;
-    surname:string
-    userId?:string
+    username:string;
+    userId:string;
+    user:User
 }
+export type CreateAdmin = {
+    username: string;
+    email: string;
+    whatsAppNumber: string;
+    password: string;
+};
+
+export type CreateAdminFormData = CreateAdmin & { confirmPassword: string };
+
+

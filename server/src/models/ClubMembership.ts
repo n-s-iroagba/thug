@@ -1,33 +1,31 @@
 import { DataTypes, Model, Optional, NonAttribute, ForeignKey } from "sequelize";
-import { ClubMembershipTier } from "../enums/ClubMembershipTier";
 import sequelize from "../config/orm";
-import { Job } from "./Job";
 import { Celebrity } from "./Celebrity";
-import Item from "./Item";
+
 
 export interface ClubMembershipAttributes {
   id: number;
-  tier: ClubMembershipTier;
+  tier: string;
   features: string;  // Store the features as a comma-separated string
   celebrityId?: ForeignKey<Celebrity['id']>;
-  itemId?: ForeignKey<Item['id']>;
-  item?: NonAttribute<Item>;
+  celebrity?:NonAttribute<Celebrity>
+
 }
 
-export type ClubMembershipCreationAttributes = Optional<ClubMembershipAttributes, "id" | "celebrityId" | "itemId">;
+export type ClubMembershipCreationAttributes = Optional<ClubMembershipAttributes, "id" | "celebrityId">;
 
 export class ClubMembership
   extends Model<ClubMembershipAttributes, ClubMembershipCreationAttributes>
   implements ClubMembershipAttributes {
 
   public id!: number;
-  public tier!: ClubMembershipTier;
+  public tier!: string;
   public features!: string;  // Comma-separated string
   public celebrityId?: ForeignKey<Celebrity['id']>;
-  public itemId?: ForeignKey<Item['id']>;
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-  public readonly jobs?: NonAttribute<Job[]>;
+  public readonly celebrity?: NonAttribute<Celebrity>;
 }
 
 ClubMembership.init(
@@ -38,16 +36,13 @@ ClubMembership.init(
       primaryKey: true,
     },
     tier: {
-      type: DataTypes.ENUM(...Object.values(ClubMembershipTier)),
+      type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        isIn: [Object.values(ClubMembershipTier)],
-      },
     },
     features: {
-      type: DataTypes.STRING,  // Use STRING for storing a comma-separated list
+      type: DataTypes.JSON, // ✅ Corrected type
       allowNull: false,
-      defaultValue: "",
+      defaultValue: [],
     },
     celebrityId: {
       type: DataTypes.INTEGER,

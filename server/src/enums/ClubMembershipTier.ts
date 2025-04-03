@@ -1,4 +1,4 @@
-export enum ClubMembershipTier{
+export enum string{
     PLATINUM= 'platinum',
     GOLD = 'gold',
     SILVER = 'silver',

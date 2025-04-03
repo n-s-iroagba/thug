@@ -5,7 +5,7 @@ import { ClubMembership } from '../types/ClubMembership';
 
 
 interface TierDetailsFormProps {
-  numberOfTiers: number;
+  numberOfTiers: any;
   setStep:any;
   tiers:any
   setTiers:any
@@ -44,7 +44,7 @@ const TierDetailsForm: React.FC<TierDetailsFormProps> = ({ numberOfTiers,setStep
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-   if (index === tiers.length-1){
+   if (index === tiers.length){
     setStep((prev:number)=>prev +1)
    }else{
     setIndex(index+1)

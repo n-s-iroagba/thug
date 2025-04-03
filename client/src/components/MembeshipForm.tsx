@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 import TierNumberForm from './TierNumberForm';
 import ReviewForm from './ReviewForm';
 import TierDetailsForm from './TierDetailsForm';
-import { DefaultClubMembership } from '../types/DefaultClubMembership';
+import { DefaultClubMembership } from '../types/ClubMembership';
+
 
 const MembershipForm: React.FC = () => {
   const [step, setStep] = useState<number>(0);
   const [numberOfTiers, setNumberTiers] = useState(0)
     const [tiers, setTiers] = useState<DefaultClubMembership[]>(
-       Array(numberOfTiers).fill(null).map((_, i) => ({
+       Array(numberOfTiers||1).fill(null).map((_, i) => ({
          price: 0,
          tier:'',
          features: ['']

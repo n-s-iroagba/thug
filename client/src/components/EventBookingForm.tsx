@@ -1,27 +1,21 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Container, Form } from 'react-bootstrap';
-import Celebrity from '../types/Celebrity';
+import Celebrity, { FanCreateCelebrity } from '../types/Celebrity';
+import { BookEvent } from '../types/Event';
 
-interface FormData {
- 
-  eventType: string;
-  eventDate: string;
-  eventLocation: string;
-  budget: string;
-  specialRequests: string;
-}
+
+
 
 interface CelebrityRequestFormProps {
-  formData: FormData;
-
+  formData: BookEvent;
   isSignedIn:boolean;
-  setComponentView: Dispatch<SetStateAction<any>>
-  selectedCelebrity:Celebrity|null
+  setComponentView?: Dispatch<SetStateAction<any>>
+  selectedCelebrity:Celebrity|FanCreateCelebrity
   contactType:"event" | "meet" | "club" | "text" | 'signup'|''
-  setFormData:any
+  setFormData:Dispatch<SetStateAction<BookEvent>>
 }
 
-const CelebrityRequestForm: React.FC<CelebrityRequestFormProps> = ({ 
+const EventBookingForm: React.FC<CelebrityRequestFormProps> = ({ 
   formData, 
   setFormData, 
   isSignedIn,
@@ -29,8 +23,22 @@ const CelebrityRequestForm: React.FC<CelebrityRequestFormProps> = ({
   contactType
 }) => {
 
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+  
   const handleSubmit=(e:any)=>{
     e.preventDefault();
+    if(!isSignedIn && setComponentView){
+      setComponentView('signup')
+      return
+    }
+    
   }
   return (
     <Container className="my-5 px-4" style={{ maxWidth: '800px' }}>
@@ -47,7 +55,7 @@ const CelebrityRequestForm: React.FC<CelebrityRequestFormProps> = ({
             as="select"
             name="eventType"
             value={formData.eventType}
-            onChange={setFormData}
+            onChange={handleInputChange}
             required
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -77,7 +85,7 @@ const CelebrityRequestForm: React.FC<CelebrityRequestFormProps> = ({
             type="date"
             name="eventDate"
             value={formData.eventDate}
-            onChange={setFormData}
+            onChange={handleInputChange}
             required
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -98,7 +106,7 @@ const CelebrityRequestForm: React.FC<CelebrityRequestFormProps> = ({
             type="text"
             name="eventLocation"
             value={formData.eventLocation}
-            onChange={setFormData}
+            onChange={handleInputChange}
             required
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -119,7 +127,7 @@ const CelebrityRequestForm: React.FC<CelebrityRequestFormProps> = ({
             type="text"
             name="budget"
             value={formData.budget}
-            onChange={setFormData}
+            onChange={handleInputChange}
             placeholder="e.g., $5,000 - $10,000"
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -140,7 +148,7 @@ const CelebrityRequestForm: React.FC<CelebrityRequestFormProps> = ({
             as="textarea"
             name="specialRequests"
             value={formData.specialRequests}
-            onChange={setFormData}
+            onChange={handleInputChange}
             rows={3}
             className="border-0 border-bottom rounded-0 px-0"
             style={{
@@ -184,4 +192,4 @@ const CelebrityRequestForm: React.FC<CelebrityRequestFormProps> = ({
   );
 };
 
-export default CelebrityRequestForm;
+export default EventBookingForm;

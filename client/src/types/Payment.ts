@@ -1,5 +1,7 @@
 export type Payment = {
-    itemType: "ClubMembership" | "Charity" | "Ticket" | "Souvenir" | "Tour";
-    price:number
+    itemType: "ClubMembership" | "Charity" | "MeetGreet" | "Event";
+    amount:number
     date:Date
+    itemId:number
+    fanId:number
 }
