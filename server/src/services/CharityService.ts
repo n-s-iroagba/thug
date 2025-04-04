@@ -2,6 +2,40 @@ import { Celebrity } from "../models/Celebrity";
 import { Charity, CharityAttributes, CharityCreationAttributes } from "../models/Charity";
 
 
+// const getCharitiesGroupedByCelebrity = async (req: Request, res: Response) => {
+//   try {
+//     // Fetch charities with their respective celebrity data
+//     const charities = await Charity.findAll({
+//       include: [
+//         {
+//           model: Celebrity,
+//           as: 'celebrity',
+//         },
+//       ],
+//     });
+
+//     // Group charities by celebrityId
+//     const groupedCharities = charities.reduce((acc: any, charity: any) => {
+//       const celebrityId = charity.celebrityId;
+//       if (celebrityId) {
+//         if (!acc[celebrityId]) {
+//           acc[celebrityId] = {
+//             celebrity: charity.celebrity,
+//             charities: [],
+//           };
+//         }
+//         acc[celebrityId].charities.push(charity);
+//       }
+//       return acc;
+//     }, {});
+
+//     res.json(groupedCharities);
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error fetching charities' });
+//   }
+// };
+
+
 export class CharityService {
   /**
    * Create a new charity

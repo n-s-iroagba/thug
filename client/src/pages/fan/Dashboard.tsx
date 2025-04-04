@@ -8,7 +8,7 @@ import Interactions from "../../components/Interactions";
 import Logo from "../../components/Logo";
 import Notifications from "../../components/Notifications";
 import { getGreeting } from "../../utils/utils";
-import returnDashboardNavItems from "../../helpers/returnDashboardNavItems";
+
 
 
 
@@ -53,7 +53,7 @@ const Dashboard: React.FC = () => {
   const clickHandler = (component: ReactNode) => {
     setComponent(component)
   }
-  const props = returnDashboardNavItems(id, clickHandler)
+  
 
   return (
     <div className=" min-vh-100 ">
@@ -88,7 +88,7 @@ const Dashboard: React.FC = () => {
 
       <div className="d-flex">
         <div className="d-none d-lg-block w-25">
-          <DashboardBar props={props} />
+          <DashboardBar clickHandler={clickHandler} id={id} />
         </div>
 
         {/* Toggleable Sidebar for small screens */}
@@ -98,7 +98,7 @@ const Dashboard: React.FC = () => {
           <Offcanvas.Header closeButton>
           </Offcanvas.Header>
           <Offcanvas.Body>
-            <DashboardBar props={props} />
+            <DashboardBar clickHandler={clickHandler} id={id} />
           </Offcanvas.Body>
         </Offcanvas>
 

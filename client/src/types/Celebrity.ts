@@ -1,7 +1,7 @@
 import { ClubMembership } from "./ClubMembership";
-import { Job } from "./Job";
+
 export default interface Celebrity {
-    id:string
+    id:number
     stageName: string;
     firstName: string;
     surname: string;
@@ -9,7 +9,6 @@ export default interface Celebrity {
     memberships:ClubMembership[]
     isConfirmed:boolean;
     image: string;
-    jobs?:Job[]
    
   }
 

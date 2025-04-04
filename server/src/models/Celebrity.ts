@@ -78,9 +78,8 @@ Celebrity.init(
     tableName: "celebrities",
   }
 );
-Celebrity.hasMany(
-  Event,{
-    foreignKey: "celebrityId",
-    as: "events",
-  }
-)
+Event.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "celebrity" });
+Celebrity.hasMany(Event, { foreignKey: "celebrityId", as: "events" });
+
+// Event.belongsTo(Fan, { foreignKey: "fanId", as: "fan" });
+// Fan.hasMany(Event, { foreignKey: "fanId", as: "events" });

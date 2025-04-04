@@ -82,9 +82,9 @@ Message.init(
   }
 );
 
-Message.belongsTo(Fan, { foreignKey: "fanId", as: "fan" });
+
 Fan.hasMany(Message, { foreignKey: "fanId", as: "messages" });
 
-Message.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "fan" });
-Celebrity.hasMany(Message, { foreignKey: "celebrityId", as: "messages" });
+// Message.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "fan" });
+Celebrity.hasMany(Message, { foreignKey: "celebrityId", as: "receivedMessages" });
 export default Message;

@@ -56,6 +56,6 @@ Souvenir.init(
     tableName: "souvenirs",
   }
 );
-Souvenir.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "celebrity" });
+// Souvenir.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "celebrity" });
 Celebrity.hasMany(Souvenir, { foreignKey: "celebrityId", as: "souvenirs" });
 export default Souvenir;

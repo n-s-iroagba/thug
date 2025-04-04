@@ -3,29 +3,29 @@ import { EventCreationAttributes } from "../models/Event";
 
 class EventService {
   // Create a new event
-  async create(data: EventCreationAttributes) {
+  static async create(data: EventCreationAttributes) {
     return await Event.create(data);
   }
 
   // Get all events
-  async getAll() {
+  static async getAll() {
     return await Event.findAll({ include: ["celebrity"] });
   }
 
   // Get a single event by ID
-  async getById(id: number) {
+  static async getById(id: number) {
     return await Event.findByPk(id, { include: ["celebrity"] });
   }
 
   // Update an existing event
-  async update(id: number, data: Partial<EventCreationAttributes>) {
+  static async update(id: number, data: Partial<EventCreationAttributes>) {
     const event = await Event.findByPk(id);
     if (!event) throw new Error("Event not found");
     return await event.update(data);
   }
 
   // Delete an event
-  async delete(id: number) {
+  static async delete(id: number) {
     const event = await Event.findByPk(id);
     if (!event) throw new Error("Event not found");
     await event.destroy();
@@ -33,7 +33,7 @@ class EventService {
   }
 
   // Get events by status
-  async getByStatus(status: "Active" | "Pending" | "Expired" | "Unpaid") {
+  static async getByStatus(status: "Active" | "Pending" | "Expired" | "Unpaid") {
     return await Event.findAll({
       where: { status },
       include: ["celebrity"],
@@ -41,4 +41,4 @@ class EventService {
   }
 }
 
-export default new EventService();
+export default EventService;

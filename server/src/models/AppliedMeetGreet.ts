@@ -74,9 +74,9 @@ AppliedMeetGreet.init(
 );
 
 // Define associations
-AppliedMeetGreet.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "celebrity" });
-Celebrity.hasMany(AppliedMeetGreet, { foreignKey: "celebrityId", as: "appliedMeetGreets" });
-AppliedMeetGreet.belongsTo(Fan, { foreignKey: "fanId", as: "fan" });
-Celebrity.hasMany(AppliedMeetGreet, { foreignKey: "fanId", as: "appliedMeetGreets" });
+// AppliedMeetGreet.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "celebrity" });
+Celebrity.hasMany(AppliedMeetGreet, { foreignKey: "celebrityId", as: "invitedAppliedMeetGreets" });
+
+Fan.hasMany(AppliedMeetGreet, { foreignKey: "fanId", as: "appliedMeetGreets" });
 
 export default AppliedMeetGreet;

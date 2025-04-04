@@ -1,16 +1,17 @@
 import Celebrity from "./Celebrity";
 import { Fan } from "./Fan";
-import { Ticket } from "./Ticket";
+
 
 export type Event = {
-    id?: number;
+    id: number;
     title: string;
     startDate: string;
     endDate: string;
     location: string;
     description: string;
     image: string;
-    tickets: Ticket[];
+    amount:number;
+    amountPaid:number;
     fanId:number
     celebrityId:number
       status:"Active"| "Pending"| "Expired"|"Unpaid";

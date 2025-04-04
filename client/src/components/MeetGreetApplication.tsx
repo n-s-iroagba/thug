@@ -3,7 +3,7 @@ import { Container, Form, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Celebrity, { FanCreateCelebrity } from '../types/Celebrity';
-import { BookMeetGreetReference, MeetGreetBooking } from '../types/MeetGreet';
+import { MeetGreetReference, MeetGreetBooking } from '../types/MeetGreet';
 
 
 
@@ -22,7 +22,7 @@ const MeetGreetBookingForm: React.FC<MeetGreetApplicationProps> = ({
   selectedCelebrity,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [meetGreetReference, setMeetGreetReference] = useState<BookMeetGreetReference | null>(null);
+  const [meetGreetReference, setMeetGreetReference] = useState<MeetGreetReference | null>(null);
 
   useEffect(() => {
     const fetchMeetGreetReference = async () => {
@@ -32,7 +32,7 @@ const MeetGreetBookingForm: React.FC<MeetGreetApplicationProps> = ({
             ? `/api/meet-greet/reference/${selectedCelebrity.id}`
             : `/api/meet-greet/default-reference`
         );
-        const data: BookMeetGreetReference = await response.json();
+        const data: MeetGreetReference = await response.json();
         setMeetGreetReference(data);
       } catch (error) {
         console.error("Error fetching Meet & Greet reference:", error);

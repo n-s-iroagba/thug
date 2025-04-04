@@ -2,46 +2,63 @@ import { Request, Response } from "express";
 import { FanService } from "../services/FanService";
 import { MessageService } from "../services/MessageService";
 import { CelebrityService } from "../services/CelebrityService";
-import JobService from "../services/JobService";
+import  EventService  from "../services/EventService";
+import AppliedMeetGreetService from "../services/AppliedMeetGreetService";
+import ClubMembershipSubscription from "../models/ClubMembershipSubscription";
+import { ClubMembershipSubscriptionService } from "../services/ClubMembershipSubscriptionService";
 
 export class FanController {
 
   static async createFanAndBooking(req: Request, res: Response): Promise<any> {
-    let { fan, contactType, message, celebrity, user } = req.body;
-
-    console.log(req.body);
-  
-    fan = JSON.parse(fan);
-    user = JSON.parse(user);
-    celebrity = JSON.parse(celebrity);
-
-
     try {
-        if (!celebrity.id) {
+        let { fan, contactType, message, celebrity, user } = req.body;
+
+        console.log("Received Request Body:", req.body);
+
+        try {
+            fan = typeof fan === "string" ? JSON.parse(fan) : fan;
+            user = typeof user === "string" ? JSON.parse(user) : user;
+            celebrity = typeof celebrity === "string" ? JSON.parse(celebrity) : celebrity;
+        } catch (error) {
+            return res.status(400).json({ error: "Invalid JSON format in request body" });
+        }
+
+        if (!celebrity?.id) {
             console.log("No celebrity ID found, creating new...");
             celebrity = await CelebrityService.createCelebrity(celebrity);
+        }else {
+          celebrity = await CelebrityService.getCelebrityById(celebrity.id)
         }
 
         console.log("Fan data:", fan);
         console.log("User data:", user);
         console.log("Celebrity data:", celebrity);
 
-        // Create Fan, Job, Chat
+        // Create Fan
         const { token, fanId } = await FanService.createFan(fan, user);
-        const job = await JobService.createJob({ fanId, celebrityId: celebrity.id });
     
 
-        await MessageService.postMessage({
-    
-            content: message,
-            jobId: job.id,
-            isSeen: false,
-         
-        });
+     
+        switch (contactType) {
+            case "event":
+                await EventService.create({...req.body.event,fanId,celebrityId:celebrity.id});
+                break;
+            case "text":
+                await MessageService.postMessage({ content: req.body.message,fanId,celebrityId:celebrity.id });
+                break;
+            case "meet":
+                await AppliedMeetGreetService.create({...req.body.meet,fanId,celebrityId:celebrity.id});
+                break;
+            case "club":
+                await ClubMembershipSubscriptionService.createSubscription({...req.body.club,fanId,celebrityId:celebrity.id});
+                break;
+            default:
+                throw new Error( "Invalid contact type" );
+        }
 
-        return res.status(201).json(token);
+        return res.status(201).json({ token });
     } catch (error: any) {
-        console.error(error);
+        console.error("Error in createFanAndBooking:", error);
         return res.status(500).json({ error: error.message });
     }
 }

@@ -1,10 +1,11 @@
 // ReviewForm.tsx
 import React from 'react';
-import { DefaultClubMembership } from '../types/DefaultClubMembership';
+import { CreateDefaultClubMembership } from '../types/ClubMembership';
+
 
 
 interface ReviewFormProps {
-  tiers: DefaultClubMembership[];
+  tiers: CreateDefaultClubMembership[];
   onSubmit: () => void;
   onBack: () => void;
 }

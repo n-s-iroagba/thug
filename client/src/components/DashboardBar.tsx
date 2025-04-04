@@ -1,33 +1,124 @@
-
-import { Navbar, Nav } from "react-bootstrap";
-import React, { ReactNode }  from "react";
-import { NavItem } from "../types/NavItem";
+import React, { ReactNode, useState } from "react";
+import { Offcanvas, Nav, Accordion } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-interface DashboardBarProps {
-  props:{navItems:NavItem[],clickHandler:(component:ReactNode)=>void}
+import {
+  faHome,
+  faCommentDots,
+  faPhoneAlt,
+  faPeopleGroup,
+  faLocationPin,
+} from "@fortawesome/free-solid-svg-icons";
+import { faMeetup } from "@fortawesome/free-brands-svg-icons";
 
-}
+import NeverToBe from "./NeverToBe";
+import Profile from "./Profile";
+import EventsGroupedByCelebrity from "./EventsGroupedByCelebrity";
+import AppliedMeetGreetGroupedByCelebrity from "./AppliedMeetGreetGroupedByCelebrity";
+import MessagesGroupedByCelebrity from "./MessagesGroupedByCelebrity";
+import SubscriptionsGroupedByCelebrity from "./SubscriptionGroupedByCelebrity";
 
-const DashboardBar: React.FC<DashboardBarProps> = ({ props}) => {
+const DashboardBar: React.FC<{ clickHandler: (component: ReactNode) => void; id: number; }> = ({ clickHandler,id }) => {
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const clubMembershipItems = [
+    { title: "My Club Membership", component: <SubscriptionsGroupedByCelebrity  id = {id}/> },
+    { title: "Apply for Club Membership", component: <ApplyClubMembership id ={id}/> },
+    { title: "My Pending Club Applications", component: <SubscriptionsGroupedByCelebrity  isPending id ={id}/> },
+  ];
+
+  const meetAndGreetItems = [
+    { title: "My Scheduled Meet And Greets", component:  <AppliedMeetGreetGroupedByCelebrity id ={id}/> },
+    { title: "Apply for Meet And Greets", component:<ApplyMeetGreet id = {id}/> },
+    { title: "My Pending Meet And Greet", component: <AppliedMeetGreetGroupedByCelebrity isPending id ={id}/> },
+      { title: "My Past Meet And Greets", component: <NeverToBe title="Meet an Greet"/> },
+  ];
+
+  const eventItems = [
+    { title: "My Scheduled Event Bookings", component: <EventsGroupedByCelebrity id = {id}/> },
+    { title: "Apply for Event Bookings", component: <ApplyEvent id ={id}/> },
+    { title: "My Pending Event Booking Applications", component: <EventsGroupedByCelebrity  isPending id ={id}/> },
+      { title: "My Past Event Booking", component: <NeverToBe title="Events"/> },
+  ];
 
   return (
-    <Navbar bg="light" className="flex-column align-items-start p-3" style={{ height: "100vh" }}>
-      <Navbar.Brand className="mb-4">Actions</Navbar.Brand>
-      <Nav className="flex-column w-100">
-        {props.navItems.map((item) => (
-          <Nav.Link
-            key={item.title}
-            onClick={() => props.clickHandler(item.component)}
-            className="d-flex align-items-center gap-2 "
-          >
-            <FontAwesomeIcon icon = {item.icon}/>
-            <span>{item.title}</span>
-          </Nav.Link>
-        ))}
-      </Nav>
-    </Navbar>
+    <>
+      {/* Sidebar toggle button for small screens */}
+      <button
+        className="btn btn-primary d-lg-none"
+        onClick={handleShow}
+        aria-label="Toggle Sidebar"
+      >
+        ☰
+      </button>
+
+      {/* Sidebar */}
+      <Offcanvas show={show} onHide={handleClose} responsive="lg">
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Dasboard</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <Nav className="flex-column">
+            {/* Main navigation links */}
+            <Nav.Link onClick={() => clickHandler(<Profile id={id}/>)} className="d-flex align-items-center gap-2">
+              <FontAwesomeIcon icon={faHome} />
+              <span>Home</span>
+            </Nav.Link>
+            <Nav.Link onClick={() => clickHandler(<MessagesGroupedByCelebrity id={id}/>)} className="d-flex align-items-center gap-2">
+              <FontAwesomeIcon icon={faCommentDots} />
+              <span>My Shoutouts</span>
+            </Nav.Link>
+            <Nav.Link onClick={() => clickHandler(<Profile id={id}/>)} className="d-flex align-items-center gap-2">
+              <FontAwesomeIcon icon={faPhoneAlt} />
+              <span>Send New Messages</span>
+            </Nav.Link>
+
+            {/* Accordion Items */}
+            <Accordion>
+              {clubMembershipItems.map((item, index) => (
+                <Accordion.Item eventKey='0' key={index}>
+                  <Accordion.Header>Club Memberships</Accordion.Header>
+                  <Accordion.Body>
+                    <Nav.Link onClick={() => clickHandler(`${item.component}Application`)} className="d-flex align-items-center gap-2">
+                      <FontAwesomeIcon icon={faPeopleGroup} />
+                      <span>{item.title}</span>
+                    </Nav.Link>
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))}
+              {meetAndGreetItems.map((item, index) => (
+                <Accordion.Item eventKey='0' key={index}>
+                  <Accordion.Header>Meet And Greets</Accordion.Header>
+                  <Accordion.Body>
+                    <Nav.Link onClick={() => clickHandler(`${item.component}Application`)} className="d-flex align-items-center gap-2">
+                      <FontAwesomeIcon icon={faMeetup} />
+                      <span>{item.title}</span>
+                    </Nav.Link>
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))}
+               {eventItems.map((item, index) => (
+                <Accordion.Item eventKey='0' key={index}>
+                  <Accordion.Header>Event Booking</Accordion.Header>
+                  <Accordion.Body>
+                    <Nav.Link onClick={() => clickHandler(`${item.component}Application`)} className="d-flex align-items-center gap-2">
+                      <FontAwesomeIcon icon={faLocationPin} />
+                      <span>{item.title}</span>
+                    </Nav.Link>
+                  </Accordion.Body>
+                </Accordion.Item>
+              ))}
+            </Accordion>
+          </Nav>
+        </Offcanvas.Body>
+      </Offcanvas>
+    </>
   );
 };
 
 export default DashboardBar;
+
+            
+

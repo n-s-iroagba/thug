@@ -5,7 +5,7 @@ import { Payment } from "./Payment";
 
 
 
-export type DefaultClubMembership = CreateDefaultClubMembership &  {id:string}
+export type DefaultClubMembership = CreateDefaultClubMembership &  {id:number}
 
 export type CreateDefaultClubMembership = {
   tier: string;
@@ -19,20 +19,22 @@ export type DefaultBulkClubMembership = {
 }
 
 export type ClubMembership = {
-  id: string;
+  id: number;
   tier: string;
   features: string[];
   price: number;
   celebrityId:number
 }
 
-export type AppliedClubMembership = {
+export type ClubMembershipSubscription = {
+  id:number
   fanId:number
   status:"Active"| "Pending"| "Expired"|"Unpaid"
   celebrityId:number
   celebrity:Celebrity
   fan:Fan
-
+  isMax:boolean
+  dateOfLastPayment:Date
   membership:ClubMembership
   payments:Payment[]
   nextPaymentDate:Date
