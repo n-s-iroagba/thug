@@ -18,7 +18,7 @@ interface SignUpProps {
   handleFanChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent) => void;
   setFan: React.Dispatch<React.SetStateAction<Fan>>;
-   setComponentView: React.Dispatch<React.SetStateAction<any>>; 
+   setComponentView?: React.Dispatch<React.SetStateAction<any>>; 
   fan: Fan;
   user: User;
   submitting: boolean;
@@ -28,7 +28,7 @@ interface SignUpProps {
   confirmPassword: string;
 }
 
-const SignUp: React.FC<SignUpProps> = ({
+const SignUpForm: React.FC<SignUpProps> = ({
   errorMessage,
   errors,
   submitting,
@@ -270,4 +270,4 @@ const SignUp: React.FC<SignUpProps> = ({
   );
 };
 
-export default SignUp;
+export default SignUpForm;
