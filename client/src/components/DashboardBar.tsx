@@ -16,6 +16,9 @@ import EventsGroupedByCelebrity from "./EventsGroupedByCelebrity";
 import AppliedMeetGreetGroupedByCelebrity from "./AppliedMeetGreetGroupedByCelebrity";
 import MessagesGroupedByCelebrity from "./MessagesGroupedByCelebrity";
 import SubscriptionsGroupedByCelebrity from "./SubscriptionGroupedByCelebrity";
+import ApplyClubMembership from "./ApplyClubMembership";
+import ApplyEvent from "./ApplyEvent";
+import ApplyMeetGreet from "./ApplyMeetGreet";
 
 const DashboardBar: React.FC<{ clickHandler: (component: ReactNode) => void; id: number; }> = ({ clickHandler,id }) => {
   const [show, setShow] = useState(false);

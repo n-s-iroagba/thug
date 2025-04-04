@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ReactNode, useState } from "react";
 import { Badge, Button, Offcanvas } from "react-bootstrap";
 import DashboardBar from "../../components/DashboardBar";
-import Interactions from "../../components/Interactions";
 import Logo from "../../components/Logo";
 import Notifications from "../../components/Notifications";
 import { getGreeting } from "../../utils/utils";
+import MessagesGroupedByCelebrity from "../../components/MessagesGroupedByCelebrity";
 
 
 
@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const toggleSidebar = () => setShowSidebar((prev) => !prev);
   const toggleNotifications = () => setShowNotifications((prev) => !prev);
-  const [component, setComponent] = useState<ReactNode>(<Interactions id={id} />);
+  const [component, setComponent] = useState<ReactNode>(<MessagesGroupedByCelebrity id={id} />);
   const clickHandler = (component: ReactNode) => {
     setComponent(component)
   }
