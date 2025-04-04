@@ -23,16 +23,28 @@ class DefaultClubMembershipService {
     });
   }
 
-
   static async updateMembership(
     id: number, 
     updates: Partial<DefaultClubMembershipAttributes>
-  ): Promise<[number, DefaultClubMembership[]]> {
-    return await DefaultClubMembership.update(updates, { 
-      where: { id },
-      returning: true 
-    });
+  ): Promise<DefaultClubMembershipAttributes | null> {
+    try {
+      // First, check if the membership exists
+      const membership = await DefaultClubMembership.findByPk(id);
+
+      if (!membership) {
+        throw new Error(`Membership with id ${id} not found`);
+      }
+
+      // Update the membership with provided updates
+      await membership.update(updates);
+      
+      // Return the updated membership instance
+      return membership.toJSON();
+    } catch (error) {
+      throw new Error(`Error updating membership: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
+
 
   // ✅ Delete a membership
   static async deleteMembership(id: number): Promise<number> {

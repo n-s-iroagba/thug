@@ -43,7 +43,7 @@ AppliedMeetGreet.init(
     fanId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: "jobs", key: "id" },
+      references: { model: "fans", key: "id" },
       onDelete: "CASCADE",
     },
     date: {

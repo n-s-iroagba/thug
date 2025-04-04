@@ -18,72 +18,15 @@ export class ClubMembershipService {
     }
   }
 
-  /**
-   * Get all club memberships
-   * @param includeCelebrity Whether to include associated celebrity
-   * @returns Array of all memberships
-   */
-  static async getAllMemberships(
-    includeCelebrity: boolean = false
-  ): Promise<ClubMembership[]> {
-    try {
-      const options: any = {};
-      
-      if (includeCelebrity) {
-        options.include = [{
-          model: Celebrity,
-          as: 'celebrity'
-        }];
-      }
-      
-      const memberships = await ClubMembership.findAll(options);
-      return memberships;
-    } catch (error) {
-      throw new Error(`Error getting all club memberships: ${error instanceof Error ? error.message : String(error)}`);
-    }
-  }
 
-  /**
-   * Get club membership by ID
-   * @param id Membership ID
-   * @param includeCelebrity Whether to include associated celebrity
-   * @returns Membership if found, null otherwise
-   */
-  static async getMembershipById(
-    id: number,
-    includeCelebrity: boolean = false
-  ): Promise<ClubMembership | null> {
-    try {
-      const options: any = {
-        where: { id }
-      };
-      
-      if (includeCelebrity) {
-        options.include = [{
-          model: Celebrity,
-          as: 'celebrity'
-        }];
-      }
-      
-      const membership = await ClubMembership.findOne(options);
-      return membership;
-    } catch (error) {
-      throw new Error(`Error getting club membership by ID: ${error instanceof Error ? error.message : String(error)}`);
-    }
-  }
+  
 
-  /**
-   * Update club membership by ID
-   * @param id Membership ID
-   * @param updateData Data to update
-   * @returns Updated membership
-   */
   static async updateMembership(
-    id: number,
+  
     updateData: Partial<ClubMembershipAttributes>
   ): Promise<ClubMembership | null> {
     try {
-      const membership = await ClubMembership.findByPk(id);
+      const membership = await ClubMembership.findByPk(updateData.id);
       if (!membership) {
         return null;
       }
@@ -96,7 +39,39 @@ export class ClubMembershipService {
   }
 
 
+    static async getAllClubMembershipsGroupedByCelebrity(): Promise<Record<string, ClubMembershipAttributes[]>> {
+      try {
+        // Fetch all memberships, including associated celebrity data
+        const memberships = await ClubMembership.findAll({
+          include: {
+            model: Celebrity,
+            as: "celebrity",
+            attributes: ["firstName",'surname','stageName'], // Only include the celebrity name
+          },
+        });
+  
+        // Group memberships by celebrity name
+        const groupedMemberships: Record<string, ClubMembershipAttributes[]> = {};
+  
+        memberships.forEach((membership) => {
+          const celebrityName = (membership.celebrity?.firstName + (membership.celebrity?.surname||'') + '(' + membership.celebrity?.stageName + ')' )|| "Unknown Celebrity"; // Default to 'Unknown Celebrity' if no celebrity
+  
+          if (!groupedMemberships[celebrityName]) {
+            groupedMemberships[celebrityName] = [];
+          }
+  
+          groupedMemberships[celebrityName].push(membership);
+        });
+  
+        return groupedMemberships;
+      } catch (error) {
+        throw new Error(`Error fetching and grouping memberships: ${error instanceof Error ? error.message : String(error)}`);
+      }
+    }
+  }
+  
+  export default ClubMembershipService;
+  
 
 
 
-}

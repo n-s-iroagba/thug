@@ -17,31 +17,27 @@ import FirstBooking from './pages/fan/FirstBooking';
 import SignUp from './pages/fan/SignUp';
 import AdminSignUp from './pages/admin/AdminSignUp';
 import MembershipForm from './components/MembeshipForm';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        {/* 
-        <Route  path="verification" Component={Verify()} />
-        */}
-
+       
         <Route path="/" element={<Home />} />
-
-   
-
-  
-        <Route path="/login" element={<Login />} />
+        
         <Route path='/admin/signup' element={<AdminSignUp/>}/>
+
         <Route path='/create-default/membership' element={<MembershipForm/>}/>
-        {/* <Route path='/admin/dashboard' element={<AdminDashboard/>}/> */}
+        <Route path='/admin/dashboard' element={<AdminDashboard/>}/>
+
+        <Route path="/login" element={<Login />} />
         <Route path='/signup' element={<SignUp/>}/>
-        <Route path='/book' element={<FirstBooking/>}/>
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<NewPassword />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
-
-
+        <Route path='/book' element={<FirstBooking/>}/>
+       
         <Route path="/dashboard" element={<Dashboard/>}/>
   
   

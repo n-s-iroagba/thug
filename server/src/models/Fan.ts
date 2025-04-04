@@ -7,6 +7,9 @@ import {
 } from "sequelize";
 import { User } from "./User";
 import sequelize from "../config/orm";
+import AppliedMeetGreet from "./AppliedMeetGreet";
+import ClubMembershipSubscription from "./ClubMembershipSubscription";
+import Message from "./Message";
 
 
 interface FanAttributes {
@@ -19,6 +22,10 @@ interface FanAttributes {
   dateOfBirth: Date;
   userId: ForeignKey<User["id"]>;
   occupation: string;
+  events?:NonAttribute<Event[]>
+  meetGreets?: NonAttribute<AppliedMeetGreet[]>
+  clubSubscriptions?:NonAttribute<ClubMembershipSubscription[]>
+  messages?:NonAttribute<Message []>
   user?: NonAttribute<User>;
 
 }
@@ -93,4 +100,8 @@ Fan.init(
     sequelize,
     tableName: "fans",
   }
+
+
 );
+Fan.belongsTo(User, { foreignKey: "userId", as: 'user' });
+User.hasOne(Fan, { foreignKey: "userId" });

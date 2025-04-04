@@ -1,4 +1,4 @@
-import Celebrity from "./Celebrity";
+import { Celebrity } from "./Celebrity";
 import { Fan } from "./Fan";
 import { Payment } from "./Payment";
 

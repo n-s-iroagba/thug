@@ -143,7 +143,10 @@ Event.init(
   }
 );
 
-// Associations
+Fan.hasMany(Event, { foreignKey: "fanId", as: "events" });
+Event.belongsTo(Fan, { foreignKey: "fanId", as: "fan" });
+Celebrity.hasMany(Event, { foreignKey: "celebrityId", as: "bookedEvents" });
+Event.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "celebrity" });
 
 
 export default Event;

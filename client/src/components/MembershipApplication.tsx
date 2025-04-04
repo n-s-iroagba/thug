@@ -98,7 +98,7 @@ const MembershipApplication: React.FC<MembershipSelectionProps> = ({
           </div>
         </Col>
       </Row>
-      <button onClick={()=>handleSubmit}>Sign in</button>
+       { memberships && <button onClick={()=>handleSubmit}>{isSignedIn && memberships?'apply':'sign up'}</button>}
 
       <style>
         {`

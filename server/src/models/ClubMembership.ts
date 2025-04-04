@@ -2,17 +2,15 @@ import { DataTypes, Model, Optional, NonAttribute, ForeignKey } from "sequelize"
 import sequelize from "../config/orm";
 import { Celebrity } from "./Celebrity";
 
-
 export interface ClubMembershipAttributes {
   id: number;
   tier: string;
-  features: string;  // Store the features as a comma-separated string
-  celebrityId?: ForeignKey<Celebrity['id']>;
-  celebrity?:NonAttribute<Celebrity>
-
+  features: string[];  // Store the features as a comma-separated string
+  celebrityId: ForeignKey<Celebrity['id']>; // Make celebrityId required
+  celebrity?: NonAttribute<Celebrity>;
 }
 
-export type ClubMembershipCreationAttributes = Optional<ClubMembershipAttributes, "id" | "celebrityId">;
+export type ClubMembershipCreationAttributes = Optional<ClubMembershipAttributes, "id">; // celebrityId is required now
 
 export class ClubMembership
   extends Model<ClubMembershipAttributes, ClubMembershipCreationAttributes>
@@ -20,8 +18,8 @@ export class ClubMembership
 
   public id!: number;
   public tier!: string;
-  public features!: string;  // Comma-separated string
-  public celebrityId?: ForeignKey<Celebrity['id']>;
+  public features!: string[];  // Comma-separated string
+  public celebrityId!: ForeignKey<Celebrity['id']>; // Make celebrityId required
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -36,7 +34,7 @@ ClubMembership.init(
       primaryKey: true,
     },
     tier: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING, // Corrected to STRING for tier
       allowNull: false,
     },
     features: {
@@ -46,7 +44,7 @@ ClubMembership.init(
     },
     celebrityId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false, // Now required
     },
   },
   {
@@ -56,7 +54,8 @@ ClubMembership.init(
     underscored: true,
   }
 );
-// ClubMembership.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "celebrity" });
+
 Celebrity.hasMany(ClubMembership, { foreignKey: "celebrityId", as: "clubMemberships" });
+ClubMembership.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "celebrity" });
 
 export default ClubMembership;

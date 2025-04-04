@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import Celebrity, { FanCreateCelebrity } from "../../types/Celebrity";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Alert, Spinner } from "react-bootstrap";
-import { fanSignUpUrl } from "../../data/urls";
+
 import { ComponentView } from "./FirstBooking";
 
 interface BookingProps {
@@ -54,7 +54,7 @@ const Shoutout: React.FC<BookingProps> = ({
       formData.append("message", message);
       formData.append("contactType", contactType);
 
-      const response = await fetch(fanSignUpUrl, {
+      const response = await fetch('', {
         method: "POST",
         body: formData,
       });

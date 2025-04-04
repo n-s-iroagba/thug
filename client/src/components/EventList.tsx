@@ -4,7 +4,7 @@ import EventCard from './EventCard';
 import EditEventModal from './EditEventModal';
 import { Event } from '../types/Event';
 
-const EventList: React.FC = () => {
+const EventList: React.FC<{isUnVerified?:boolean}> = ({isUnVerified}) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [showModal, setShowModal] = useState(false);

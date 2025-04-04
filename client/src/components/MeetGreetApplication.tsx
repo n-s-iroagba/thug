@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Celebrity, { FanCreateCelebrity } from '../types/Celebrity';
+import  { Celebrity, FanCreateCelebrity } from '../types/Celebrity';
 import { MeetGreetReference, MeetGreetBooking } from '../types/MeetGreet';
 
 

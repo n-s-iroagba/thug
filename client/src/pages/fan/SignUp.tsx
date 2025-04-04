@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Fan } from "../../types/Fan";
+import { CreateFan } from "../../types/Fan";
 import { User } from "../../types/User";
 import SignUpForm from "../../components/SignupForm";
 import { validateForm } from "../../utils/utils";
+import { createFan } from "../../utils/apiUtils/fanApiUtils";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = ()=>{
 
@@ -12,7 +14,7 @@ const SignUp = ()=>{
         whatsAppNumber: '',
       });
     
-      const [fan, setFan] = useState<Fan>({
+      const [fan, setFan] = useState<CreateFan>({
         firstName: '',
         surname: '',
         countryOfResidence: '',
@@ -24,6 +26,7 @@ const SignUp = ()=>{
         const [submitting, setSubmitting] = useState(false);
         const [errorMessage, setErrorMessage] = useState('');
          const [errors, setErrors] = useState<Record<string, string>>({});
+         const navigate = useNavigate()
 
          const handleSubmit = async (e: React.FormEvent) => {
            e.preventDefault();
@@ -38,7 +41,9 @@ const SignUp = ()=>{
     
        
            try {
-       //implement form submission
+             const token = await createFan({fan,user})
+             navigate(`/veriy-email/${token}`)
+
            } catch (error) {
              setErrorMessage('Submission failed. Please try again.');
              console.error('Error:', error);

@@ -25,7 +25,7 @@ export class FanController {
 
         if (!celebrity?.id) {
             console.log("No celebrity ID found, creating new...");
-            celebrity = await CelebrityService.createCelebrity(celebrity);
+            celebrity = await CelebrityService.createCelebrity(celebrity,false);
         }else {
           celebrity = await CelebrityService.getCelebrityById(celebrity.id)
         }
@@ -56,13 +56,25 @@ export class FanController {
                 throw new Error( "Invalid contact type" );
         }
 
-        return res.status(201).json({ token });
+        return res.status(201).json(token);
     } catch (error: any) {
         console.error("Error in createFanAndBooking:", error);
         return res.status(500).json({ error: error.message });
     }
 }
+static async createFan(req: Request, res: Response):Promise<any> {
+  try {
+    const {fan,user} = req.body;
+    const { token,  } = await FanService.createFan(fan, user);
 
+    return res.status(201).json(token);
+
+    res.status(201).json(token);
+  } catch (error) {
+    console.error("Error creating fan:", error);
+    res.status(500).json({ message: "Failed to create fan" });
+  }
+}
   static async getAllFans(req: Request, res: Response): Promise<any> {
     try {
       const fans = await FanService.getAllFans();

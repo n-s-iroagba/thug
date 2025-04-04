@@ -1,19 +1,14 @@
-import express from 'express';
-import { CelebrityController } from '../controllers/CelebrityController';
+import { Router } from "express";
+import multer from "multer";
+import { CelebrityController } from "../controllers/CelebrityController";
 
-const celebrityRouter = express.Router();
+const router = Router();
+const upload = multer({ dest: "uploads/" });
 
+router.get("/", CelebrityController.getAll);
+router.get("/:id", CelebrityController.getById);
+router.post("/", upload.single("image"), CelebrityController.createCelebrity);
+router.put("/:id", upload.single("image"), CelebrityController.update);
+router.delete("/:id", CelebrityController.delete);
 
-celebrityRouter.post('/', CelebrityController.createCelebrity);
-
-
-celebrityRouter.patch('/:id', CelebrityController.updateCelebrity);
-
-celebrityRouter.get('/:id', CelebrityController.getCelebrityById);
-
-
-celebrityRouter.get('/', CelebrityController.getAllCelebrities);
-
-celebrityRouter.delete('/:id', CelebrityController.deleteCelebrity);
-
-export default celebrityRouter;
+export default router;

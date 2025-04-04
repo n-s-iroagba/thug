@@ -18,7 +18,8 @@ const meetGreetByCelebrity: Record<string, AppliedMeetGreet[]> = {
 //   ],
 };
 
-const AppliedMeetGreetList: React.FC = () => {
+const AppliedMeetGreetList: React.FC<{isUnVerified?:boolean
+}>= ({isUnVerified}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);

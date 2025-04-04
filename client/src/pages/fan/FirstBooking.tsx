@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import Celebrity, { FanCreateCelebrity } from "../../types/Celebrity";
-import { Fan } from "../../types/Fan";
+import { CreateFan} from "../../types/Fan";
 import { User } from "../../types/User";
 import { ClubMembership, DefaultClubMembership } from "../../types/ClubMembership";
 import { validateForm } from "../../utils/utils";
-import { fanSignUpUrl } from "../../data/urls";
+
 import useFetchAllCelebrities from "../../hooks/useFetchAllCelebrities";
 import SearchBar from "../../components/SearchBar";
 import SearchPic from "../../components/SearchPic";
@@ -17,6 +17,7 @@ import MeetGreetApplication from "../../components/MeetGreetApplication";
 import MembershipApplication from "../../components/MembershipApplication";
 import { MeetGreetBooking } from "../../types/MeetGreet";
 import { BookEvent } from "../../types/Event";
+import { fanSignUpWithContactUrl } from "../../data/urls";
 
 export type ContactType = "event" | "meet" | "club" | "text";
 export type ComponentView = ContactType | "signup";
@@ -56,7 +57,7 @@ const FirstBooking = () => {
     whatsAppNumber: '',
   });
 
-  const [fan, setFan] = useState<Fan>({
+  const [fan, setFan] = useState<CreateFan>({
     firstName: '',
     surname: '',
     countryOfResidence: '',
@@ -129,7 +130,7 @@ const FirstBooking = () => {
     }
 
     try {
-      const response = await fetch(fanSignUpUrl, {
+      const response = await fetch(fanSignUpWithContactUrl, {
         method: 'POST',
         body: formData
       });

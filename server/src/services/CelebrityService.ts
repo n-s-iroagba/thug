@@ -1,20 +1,36 @@
 import { Celebrity, CelebrityAttributes, CelebrityCreationAttributes } from "../models/Celebrity";
+import ClubMembership, { ClubMembershipCreationAttributes } from "../models/ClubMembership";
+import DefaultClubMembership from "../models/DefaultClubMembership";
 
 
 export class CelebrityService {
-  /**
-   * Create a new celebrity
-   * @param celebrityData Data to create celebrity (including image as base64 string)
-   * @returns Created celebrity
-   */
-  static async createCelebrity(celebrityData: CelebrityCreationAttributes): Promise<Celebrity> {
+ 
+  static async createCelebrity(
+    celebrityData: Omit<CelebrityCreationAttributes, 'clubMemberships' | 'isConfirmed'>,
+    isConfirmed: boolean
+  ): Promise<Celebrity> {
     try {
-      const celebrity = await Celebrity.create(celebrityData);
+      const celebrity = await Celebrity.create({ ...celebrityData, isConfirmed });
+  
+      const defaultMemberships = await DefaultClubMembership.findAll();
+  
+      for (const membership of defaultMemberships) {
+        const newMembershipData: ClubMembershipCreationAttributes = {
+          ...membership.toJSON(), // ensures you're copying raw data
+          celebrityId: celebrity.id,
+        };
+
+        delete newMembershipData.id;
+  
+        await ClubMembership.create(newMembershipData);
+      }
+  
       return celebrity;
     } catch (error) {
       throw new Error(`Error creating celebrity: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
+  
 
   /**
    * Get all celebrities
@@ -37,7 +53,9 @@ export class CelebrityService {
    * @param includeChats Whether to include associated chats
    * @returns Celebrity if found, null otherwise
    */
-  static async getCelebrityById(id: number): Promise<Celebrity | null> {
+  static async getCelebrityById(id: number
+
+  ): Promise<Celebrity | null> {
     try {
       const options: any = {
         where: { id }

@@ -67,7 +67,7 @@ const DashboardBar: React.FC<{ clickHandler: (component: ReactNode) => void; id:
             {/* Main navigation links */}
             <Nav.Link onClick={() => clickHandler(<Profile id={id}/>)} className="d-flex align-items-center gap-2">
               <FontAwesomeIcon icon={faHome} />
-              <span>Home</span>
+              <span>Profile</span>
             </Nav.Link>
             <Nav.Link onClick={() => clickHandler(<MessagesGroupedByCelebrity id={id}/>)} className="d-flex align-items-center gap-2">
               <FontAwesomeIcon icon={faCommentDots} />
@@ -80,39 +80,44 @@ const DashboardBar: React.FC<{ clickHandler: (component: ReactNode) => void; id:
 
             {/* Accordion Items */}
             <Accordion>
-              {clubMembershipItems.map((item, index) => (
-                <Accordion.Item eventKey='0' key={index}>
+            <Accordion.Item eventKey='0' >
                   <Accordion.Header>Club Memberships</Accordion.Header>
                   <Accordion.Body>
-                    <Nav.Link onClick={() => clickHandler(`${item.component}Application`)} className="d-flex align-items-center gap-2">
+              {clubMembershipItems.map((item, index) => (
+               
+                    <Nav.Link onClick={() => clickHandler(item.component)} className="d-flex align-items-center gap-2">
                       <FontAwesomeIcon icon={faPeopleGroup} />
                       <span>{item.title}</span>
                     </Nav.Link>
-                  </Accordion.Body>
-                </Accordion.Item>
+
               ))}
-              {meetAndGreetItems.map((item, index) => (
-                <Accordion.Item eventKey='0' key={index}>
+                                </Accordion.Body>
+                                </Accordion.Item>
+                                <Accordion.Item eventKey='0' >
                   <Accordion.Header>Meet And Greets</Accordion.Header>
                   <Accordion.Body>
-                    <Nav.Link onClick={() => clickHandler(`${item.component}Application`)} className="d-flex align-items-center gap-2">
+              {meetAndGreetItems.map((item, index) => (
+               
+                    <Nav.Link onClick={() => clickHandler(item.component)} className="d-flex align-items-center gap-2">
                       <FontAwesomeIcon icon={faMeetup} />
                       <span>{item.title}</span>
                     </Nav.Link>
-                  </Accordion.Body>
-                </Accordion.Item>
               ))}
-               {eventItems.map((item, index) => (
-                <Accordion.Item eventKey='0' key={index}>
+                  </Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item eventKey='0' >
                   <Accordion.Header>Event Booking</Accordion.Header>
                   <Accordion.Body>
-                    <Nav.Link onClick={() => clickHandler(`${item.component}Application`)} className="d-flex align-items-center gap-2">
+               {eventItems.map((item, index) => (
+              
+                    <Nav.Link onClick={() => clickHandler(item.component)} className="d-flex align-items-center gap-2">
                       <FontAwesomeIcon icon={faLocationPin} />
                       <span>{item.title}</span>
                     </Nav.Link>
-                  </Accordion.Body>
-                </Accordion.Item>
+                  
               ))}
+              </Accordion.Body>
+              </Accordion.Item>
             </Accordion>
           </Nav>
         </Offcanvas.Body>

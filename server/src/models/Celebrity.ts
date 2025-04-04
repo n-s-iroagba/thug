@@ -16,12 +16,12 @@ export interface CelebrityAttributes {
   stageName: string;
   events?: NonAttribute<Event[]>
   clubMemberships?:NonAttribute<ClubMembership[]>
-  sourvenirs?:NonAttribute<Souvenir[]>
+  souvenirs?:NonAttribute<Souvenir[]>
   charities?:NonAttribute<Charity[]>
   meetGreets?:NonAttribute<AppliedMeetGreet[]>
 }
 
-export type CelebrityCreationAttributes = Optional<CelebrityAttributes, "id">;
+export type CelebrityCreationAttributes = Optional<CelebrityAttributes, "id"|'events'|'souvenirs'|'charities'|'meetGreets'>;
 
 export class Celebrity
   extends Model<CelebrityAttributes, CelebrityCreationAttributes>
@@ -78,8 +78,4 @@ Celebrity.init(
     tableName: "celebrities",
   }
 );
-// Event.belongsTo(Celebrity, { foreignKey: "celebrityId", as: "celebrity" });
-Celebrity.hasMany(Event, { foreignKey: "celebrityId", as: "events" });
 
-// Event.belongsTo(Fan, { foreignKey: "fanId", as: "fan" });
-// Fan.hasMany(Event, { foreignKey: "fanId", as: "events" });

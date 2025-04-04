@@ -3,22 +3,18 @@ import { Card, Button, Modal, ListGroup } from "react-bootstrap";
 
 import { DefaultClubMembership } from "../types/ClubMembership";
 import EditMembershipModal from "./EditMembershipModal";
+import MembershipForm from "./MembeshipForm";
 
-interface DefaultClubMembershipListProps {
-  memberships: DefaultClubMembership[];
-  onEdit: (membership: DefaultClubMembership) => void;
-  onDelete: (id: number) => void;
-}
 
-const DefaultClubMembershipList: React.FC<DefaultClubMembershipListProps> = ({
-  memberships,
-  onEdit,
-  onDelete,
-}) => {
+
+const DefaultClubMembershipList = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedMembership, setSelectedMembership] = useState<DefaultClubMembership | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [membershipToDelete, setMembershipToDelete] = useState<number | null>(null);
+  const [isToAdd, setIsToAdd] = useState (false)
+
+  const memberships:DefaultClubMembership[] = []
 
   const handleEditClick = (membership: DefaultClubMembership) => {
     setSelectedMembership(membership);
@@ -32,7 +28,7 @@ const DefaultClubMembershipList: React.FC<DefaultClubMembershipListProps> = ({
 
   const confirmDelete = () => {
     if (membershipToDelete !== null) {
-      onDelete(membershipToDelete);
+     
       setShowDeleteConfirm(false);
       setMembershipToDelete(null);
     }
@@ -40,6 +36,9 @@ const DefaultClubMembershipList: React.FC<DefaultClubMembershipListProps> = ({
 
   return (
     <div className="d-flex flex-wrap gap-3">
+      {!isToAdd?<>
+      <button onClick={()=>setIsToAdd(true)}>Add Club Membership</button>
+    
       {memberships.map((membership) => (
         <Card key={membership.id} style={{ width: "18rem" }}>
           <Card.Body>
@@ -83,7 +82,12 @@ const DefaultClubMembershipList: React.FC<DefaultClubMembershipListProps> = ({
           </Button>
         </Modal.Footer>
       </Modal>
+
+      </>:
+      <MembershipForm/>
+      }
     </div>
+
   );
 };
 

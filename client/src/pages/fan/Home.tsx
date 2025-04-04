@@ -51,7 +51,7 @@ const Home = () => {
           <Offcanvas.Body className="px-4 py-3">
             <Nav className="ms-auto">
               <Nav.Link href="/" className="fw-bold text-orange">Home</Nav.Link>
-              <Nav.Link href="#about" className="fw-bold text-dark">About Us</Nav.Link>
+              <Nav.Link href="/signup" className="fw-bold text-dark">Sign up</Nav.Link>
               <Nav.Link href="/login" className="fw-bold text-dark">Login</Nav.Link>
             </Nav>
           </Offcanvas.Body>

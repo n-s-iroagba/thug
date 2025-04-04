@@ -89,4 +89,8 @@ ClubMembershipSubscription.init(
   }
 );
 
+ClubMembershipSubscription.belongsTo(Fan, { foreignKey: "fanId", as: "clubMemberships" })
+
+Fan.hasMany(ClubMembershipSubscription, { foreignKey: "fanId", as: "clubMemberships" });
+
 export default ClubMembershipSubscription;

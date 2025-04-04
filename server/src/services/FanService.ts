@@ -1,10 +1,15 @@
 import { Role } from "../enums/Role";
-import { messageListToDto } from "../helper/messageDto";
+import AppliedMeetGreet from "../models/AppliedMeetGreet";
+import ClubMembershipSubscription from "../models/ClubMembershipSubscription";
 import { Fan, FanCreationAttributes } from "../models/Fan";
+import Message from "../models/Message";
 import { User } from "../models/User";
 import { MailService } from "./MailService";
 import { UserService } from "./UserService";
-
+import Event from "../models/Event";
+import path from "path";
+import fs from "fs";
+import { Celebrity } from "../models/Celebrity";
 
 export class FanService {
   static ChatService: any;
@@ -59,48 +64,73 @@ export class FanService {
       }
       }
 
-  static async getAllFans(): Promise<Fan[]> {
-    return await Fan.findAll();
-  }
+ 
+      
+        // Get all fans including associated data
+        static async getAllFans(): Promise<Fan[]> {
+          return Fan.findAll({
+            include: [
+              { model: AppliedMeetGreet, as: "appliedMeetGreets" },
+              { model: ClubMembershipSubscription, as: "clubMemberships" },
+              {
+                model: Message,
+                as: "messages",
+                include: [{ model: Celebrity, as: "celebrity" }],
+              },
+              { model: Event, as: "events" },
+              { model: User, as: "user" },
+            ],
+          });
+        }
+        
+      
+        // Get a single fan by ID
+        static async getFanById(id: number): Promise<Fan | null> {
+          return Fan.findByPk(id, {
+            include: [
+              { model: AppliedMeetGreet, as: "meetGreets" },
+              { model: ClubMembershipSubscription, as: "clubSubscriptions" },
+              { model: Message, as: "messages", include: [{ model: Celebrity, as: "celebrity" }] },
 
-  static async getFanById(id: number): Promise<Fan | null> {
-    return await Fan.findByPk(id);
-  }
-
-  static async updateFan(id: number, updates: Partial<Fan>): Promise<Fan | null> {
-    const fan = await Fan.findByPk(id);
-    if (!fan) return null;
-    return await fan.update(updates);
-  }
-
-  static async deleteFan(userId: number): Promise<boolean> {
-    const deleted = await User.destroy({ where: { id:userId
- } });
-    return deleted > 0;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+              { model: Event, as: "events" },
+              { model: User, as: "user" },
+            ],
+          });
+        }
+      
+        // Update a fan
+        static async updateFan(
+          id: number,
+          updates: Partial<FanCreationAttributes>,
+          profileImage?: Express.Multer.File
+        ): Promise<Fan | null> {
+          const fan = await Fan.findByPk(id);
+          if (!fan) return null;
+      
+          // If a new profile image is provided
+          if (profileImage) {
+            const imagePath = `/uploads/${profileImage.filename}`;
+      
+            // Optionally remove the old image if it exists
+            if (fan.profilePicture) {
+              const oldPath = path.join(__dirname, "..", "..", fan.profilePicture);
+              if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath);
+              }
+            }
+      
+            updates.profilePicture = imagePath;
+          }
+      
+          await fan.update(updates);
+          return fan;
+        }
+      
+      
+        // Delete a fan
+        static async deleteFan(id: number): Promise<boolean> {
+          const deleted = await Fan.destroy({ where: { id } });
+          return deleted > 0;
+        }
+      }
+      

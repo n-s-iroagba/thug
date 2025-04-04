@@ -1,19 +1,23 @@
 import { ClubMembership } from "./ClubMembership";
 
-export default interface Celebrity {
+export type Celebrity = CreateCelebrity & {
     id:number
+    clubMemberships:ClubMembership[]
+    isConfirmed:boolean;
+  }
+
+  export type CreateCelebrity = {
     stageName: string;
     firstName: string;
     surname: string;
     bio:string;
-    memberships:ClubMembership[]
-    isConfirmed:boolean;
     image: string;
-   
   }
+
 
   export type FanCreateCelebrity = {
     stageName:string
     firstName:string
     surname:string;
   }
+  export default Celebrity

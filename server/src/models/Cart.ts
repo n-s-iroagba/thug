@@ -8,20 +8,19 @@ import {
 import sequelize from "../config/orm";
 import { Celebrity } from "./Celebrity";
 import { Fan } from "./Fan";
-import Item from "./Item";
+
 
 export interface CartAttributes {
   id: number;
   celebrityId: ForeignKey<Celebrity["id"]>;
   fanId: ForeignKey<Fan["id"]>;
-  items?: NonAttribute <Item[]>;
+  // items?: NonAttribute <Item[]>;
 }
 export type CartCreationAttribute = Omit<CartAttributes, 'id'>
 export class Cart extends Model<CartAttributes,CartCreationAttribute> implements CartAttributes {
   public id!: number;
   public celebrityId!: number;
   public fanId!: number;
-  public items!: Item[];
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 

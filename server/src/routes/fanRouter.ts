@@ -24,14 +24,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-fanRouter.post("/signup",upload.single('mediaFile'), FanController.createFanAndBooking);
+fanRouter.post("/contact/signup",upload.single('mediaFile'), FanController.createFanAndBooking);
 
+fanRouter.post("/signup", FanController.createFan);
 fanRouter.get("/", FanController.getAllFans);
 
-fanRouter.get("/:id", FanController.getFanById);
+fanRouter.get("/one/:id", FanController.getFanById);
 
-fanRouter.put("/:id", FanController.updateFan);
+fanRouter.put("/:id", upload.single('profile-image'), FanController.updateFan);
 
-fanRouter.delete("/:id", FanController.deleteFan);
+fanRouter.delete("/delete/:id", FanController.deleteFan);
 
 export default fanRouter;

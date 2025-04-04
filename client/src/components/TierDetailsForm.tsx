@@ -1,13 +1,13 @@
 // TierDetailsForm.tsx
 import React, { useState } from 'react';
-import { ClubMembership } from '../types/ClubMembership';
+import { ClubMembership, CreateDefaultClubMembership } from '../types/ClubMembership';
 
 
 
 interface TierDetailsFormProps {
   numberOfTiers: any;
   setStep:any;
-  tiers:any
+  tiers:CreateDefaultClubMembership[]
   setTiers:any
 }
 

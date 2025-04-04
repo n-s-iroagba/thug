@@ -1,4 +1,5 @@
-import { Fan } from "../types/Fan";
+
+import { CreateFan} from "../types/Fan";
 import { User } from "../types/User";
 
 export const getGreeting = (): string => {
@@ -13,7 +14,7 @@ export const getGreeting = (): string => {
     }
   };
 
- export const validateForm = (fan:Fan,user:User,setErrors:any,confirmPassword:string): boolean => {
+ export const validateForm = (fan:CreateFan,user:User,setErrors:any,confirmPassword:string): boolean => {
     const newErrors: Record<string, string> = {};
 
     if (!fan.firstName.trim())

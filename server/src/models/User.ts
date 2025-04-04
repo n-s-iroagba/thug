@@ -95,3 +95,4 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
       }
     );
   
+

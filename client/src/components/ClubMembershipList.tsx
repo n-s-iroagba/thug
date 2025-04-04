@@ -7,7 +7,7 @@ import { ClubMembership } from "../types/ClubMembership";
 // Sample data: Club memberships grouped by celebrity
 const membershipsByCelebrity: Record<string, ClubMembership[]> = {};
 
-const ClubMembershipList: React.FC<{unVerified:boolean}> = ({unVerified:boolen}) => {
+const ClubMembershipList: React.FC<{unVerified?:boolean}> = ({unVerified:boolen}) => {
   const [searchQuery, setSearchQuery] = useState(""); // Search bar state
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
