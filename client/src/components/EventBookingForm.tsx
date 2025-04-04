@@ -10,8 +10,8 @@ interface CelebrityRequestFormProps {
   formData: BookEvent;
   isSignedIn:boolean;
   setComponentView?: Dispatch<SetStateAction<any>>
-  selectedCelebrity:Celebrity|FanCreateCelebrity
-  contactType:"event" | "meet" | "club" | "text" | 'signup'|''
+  selectedCelebrity:Celebrity|FanCreateCelebrity|null
+  contactType?:"event" | "meet" | "club" | "text" | 'signup'|''
   setFormData:Dispatch<SetStateAction<BookEvent>>
 }
 

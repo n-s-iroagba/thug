@@ -278,8 +278,7 @@ const FirstBooking = () => {
           selectedCelebrity={selectedCelebrity}
           contactType={contactType}
           bookingData={meetData}
-          setBookingData={setMeetData}
-        />
+          setBookingData={setMeetData} isSignedIn={isSignedIn}        />
       )}
 
       {componentView === 'signup' && (

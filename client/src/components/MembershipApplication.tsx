@@ -8,12 +8,12 @@ interface MembershipSelectionProps {
  
   setSelectedMembership: Dispatch<SetStateAction<ClubMembership |DefaultClubMembership| null>>
   isSignedIn:boolean
-   setComponentView: React.Dispatch<React.SetStateAction<any>>;
-  contactType:"event" | "meet" | "club" | "text" | 'signup'|''
+   setComponentView?: React.Dispatch<React.SetStateAction<any>>;
+  contactType?:"event" | "meet" | "club" | "text" | 'signup'|''
   selectedCelebrity:Celebrity|FanCreateCelebrity|null
 }
 
-const MembershipSelection: React.FC<MembershipSelectionProps> = ({ 
+const MembershipApplication: React.FC<MembershipSelectionProps> = ({ 
   selectedMembership,
   setSelectedMembership,
   setComponentView,
@@ -43,7 +43,7 @@ const MembershipSelection: React.FC<MembershipSelectionProps> = ({
   const handleSubmit = ()=>{
     if(isSignedIn){
       //createPayment
-    }else
+    }else if(setComponentView)
     setComponentView('signin')
   }
 
@@ -111,4 +111,4 @@ const MembershipSelection: React.FC<MembershipSelectionProps> = ({
   );
 };
 
-export default MembershipSelection;
+export default MembershipApplication;

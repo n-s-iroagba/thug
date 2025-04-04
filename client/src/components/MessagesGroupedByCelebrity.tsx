@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import { Message } from '../types/Messages';
+import { IdProps } from '../types/IdProps';
 
 
-interface Props {
-  getMessagesGroupedByCelebrity: () => Promise<{ [key: number]: Message[] }>;
-}
 
-const MessagesGroupedByCelebrity: React.FC<Props> = ({ getMessagesGroupedByCelebrity }) => {
-  const [groupedMessages, setGroupedMessages] = useState<{ [key: number]: Message[] }>({});
+const MessagesGroupedByCelebrity: React.FC<IdProps> = ({ id }) => {
+  const groupedMessages:{ [key: number]: Message[] }={};
 
-  useEffect(() => {
-    // Fetch the grouped messages when the component mounts
-    getMessagesGroupedByCelebrity().then(setGroupedMessages);
-  }, [getMessagesGroupedByCelebrity]);
 
   return (
     <div>

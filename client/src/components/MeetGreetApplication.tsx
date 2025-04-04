@@ -11,8 +11,9 @@ import { MeetGreetReference, MeetGreetBooking } from '../types/MeetGreet';
 
 interface MeetGreetApplicationProps {
   bookingData: MeetGreetBooking;
-  contactType: "event" | "meet" | "club" | "text" | "signup" | "";
+  contactType?: "event" | "meet" | "club" | "text" | "signup" | "";
   setBookingData:any
+  isSignedIn:boolean
   selectedCelebrity: Celebrity|FanCreateCelebrity|null;
 }
 
@@ -20,6 +21,8 @@ const MeetGreetBookingForm: React.FC<MeetGreetApplicationProps> = ({
   bookingData,
   setBookingData,
   selectedCelebrity,
+  isSignedIn
+  
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [meetGreetReference, setMeetGreetReference] = useState<MeetGreetReference | null>(null);
